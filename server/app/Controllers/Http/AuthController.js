@@ -14,16 +14,16 @@ class AuthController {
 
     }
 
-    async login ({ request, auth }) {
+    async login ({ request, auth, response }) {
 
         const { email, password } = request.all()
 
         const token = await auth.attempt(email, password)
-        
+    
         const user = await this.getUserBy(email);
         
-        return { token, user }
-
+        response.json({ token, user });
+        
     }
 
     async getUserBy(email) {
