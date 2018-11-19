@@ -4,32 +4,18 @@ const User = use('App/Models/User');
 
 class AuthController {
 
-    async register({ request }) {
+    async register({ request, auth }) {
 
-        const { email, password, username } = request.all();
-
-        await User.create({email, password, username})
-
-        return this.login(...arguments)
+        return await User.register(request, auth)
 
     }
 
     async login ({ request, auth, response }) {
 
-        const { email, password } = request.all()
-
-        const token = await auth.attempt(email, password)
-    
-        const user = await this.getUserBy(email);
+        const access = await User.login(request, auth)
         
-        response.json({ token, user });
+        response.json(access); 
         
-    }
-
-    async getUserBy(email) {
-
-        return await User.query().where('email', email).first()
-
     }
 
 }
