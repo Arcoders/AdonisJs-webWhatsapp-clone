@@ -11,6 +11,7 @@ class User extends Model {
     super.boot()
     this.addTrait('Auth')
     this.addTrait('Friend')
+    this.addTrait('Profile')
 
     /**
      * A hook to hash the user password before saving

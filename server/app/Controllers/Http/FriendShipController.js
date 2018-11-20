@@ -10,7 +10,7 @@ class FriendShipController {
 
         const status = await User.addFriend(recipientId, currentUser.id);
 
-        response.json({ status }); 
+        response.json({ status }) 
 
     }
 
@@ -20,7 +20,7 @@ class FriendShipController {
 
         const status = await User.acceptFriend(senderId, currentUser.id);
 
-        response.json({ status }); 
+        response.json({ status })
 
     }
 
@@ -30,7 +30,7 @@ class FriendShipController {
 
         const status = await User.rejectFriendship(userId, currentUser.id);
 
-        response.json({ status }); 
+        response.json({ status }) 
 
     }
 
@@ -40,7 +40,7 @@ class FriendShipController {
 
         const status = await User.checkFriendship(userId, currentUser.id)
 
-        response.json({ status }); 
+        response.json({ status })
 
     }
 
@@ -50,7 +50,7 @@ class FriendShipController {
 
         const friends = await User.chats(user.id)
 
-        response.json({ friends }); 
+        response.json({ friends })
 
     }
 

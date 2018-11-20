@@ -29,6 +29,12 @@ Route.group(() => {
 
 Route.group(() => {
 
+  // Profile ---------------------------------------------------------
+
+  Route.get('/profile', 'UserController.users')
+  Route.patch('/profile/:userId', 'ProfileController.edit').validator('EditUser')
+  Route.get('/profile/:user', 'ProfileController.getUser').bind('User')
+
   // Friendship ---------------------------------------------------------
 
   Route.post('/friends/add/:recipientId', 'FriendShipController.add')
