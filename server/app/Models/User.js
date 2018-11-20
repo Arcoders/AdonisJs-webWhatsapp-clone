@@ -1,17 +1,19 @@
 'use strict'
 
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
+
 const Model = use('Model')
 
 /** @type {import('@adonisjs/framework/src/Hash')} */
+
 const Hash = use('Hash')
 
 class User extends Model {
   static boot () {
     super.boot()
-    this.addTrait('Auth')
-    this.addTrait('Friend')
-    this.addTrait('Profile')
+    this.addTrait('user/Auth')
+    this.addTrait('user/Friend')
+    this.addTrait('user/Profile')
 
     /**
      * A hook to hash the user password before saving
@@ -36,6 +38,12 @@ class User extends Model {
    */
   tokens () {
     return this.hasMany('App/Models/Token')
+  }
+
+  groups() {
+
+    return this.belongsToMany('App/Models/Group')
+
   }
 
   static get hidden() {

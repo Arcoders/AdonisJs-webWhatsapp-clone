@@ -43,4 +43,8 @@ Route.group(() => {
   Route.get('/friends/check/:userId', 'FriendShipController.check')
   Route.get('/friends/chats', 'FriendShipController.chats')
 
+  // Groups ---------------------------------------------------------
+  
+  Route.post('groups/create', 'GroupController.create').validator('CreateGroup')
+
 }).prefix('api').middleware(['auth'])

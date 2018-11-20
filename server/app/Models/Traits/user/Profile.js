@@ -1,12 +1,16 @@
 'use strict'
 
+const Authorization = use('App/Services/Authorization')
+
 class Profile {
 
   register (Model) {
 
-    Model.editProfile = async (request, auth) => {
+    Model.editProfile = async (request, auth, userId) => {
 
       const user = await auth.getUser()
+
+      Authorization.check(userId, user)
 
       const { username } = request.all();
 

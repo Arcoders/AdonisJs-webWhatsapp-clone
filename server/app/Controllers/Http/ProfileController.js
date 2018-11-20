@@ -10,10 +10,10 @@ class ProfileController {
 
     }
 
-    async edit ({ auth, request, response }) {
+    async edit ({ auth, request, params: { userId }, response }) {
 
-        const userEdited = await User.editProfile(request, auth)
-
+        const userEdited = await User.editProfile(request, auth, userId)
+        
         response.json(userEdited)
 
     }

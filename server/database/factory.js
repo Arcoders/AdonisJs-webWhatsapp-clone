@@ -35,3 +35,13 @@ Factory.blueprint('App/Models/Friendship', async (faker, i, data) => {
   return { requester, requested, status }
 
 })
+
+
+Factory.blueprint('App/Models/Group', async (faker, i, data) => {
+
+  const user_id = (data.user_id) ? data.user_id : await Factory.model('App/Models/User').create().id
+  const name = (data.name) ? data.name : faker.name()
+
+  return { name, user_id }
+
+})
