@@ -45,6 +45,9 @@ Route.group(() => {
 
   // Groups ---------------------------------------------------------
   
-  Route.post('groups/create', 'GroupController.create').validator('CreateGroup')
+  Route.post('groups/create', 'GroupController.create').validator('ManageGroup')
+  Route.patch('groups/:group', 'GroupController.update').validator('ManageGroup').bind('Group')
+  Route.delete('groups/:group', 'GroupController.destroy').bind('Group')  
+  Route.get('groups', 'GroupController.groups')
 
 }).prefix('api').middleware(['auth'])

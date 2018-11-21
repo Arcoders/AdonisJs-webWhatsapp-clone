@@ -1,6 +1,6 @@
 'use strict'
 
-class CreateGroup {
+class ManageGroup {
 
   get rules () {
 
@@ -16,4 +16,4 @@ class CreateGroup {
 
 }
 
-module.exports = CreateGroup
+module.exports = ManageGroup
