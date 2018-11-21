@@ -3,10 +3,9 @@
 class CreateGroup {
 
   get rules () {
-    
+
     return {
       name: 'required|min:3|max:20',
-      usersId: 'array',
     }
 
   }

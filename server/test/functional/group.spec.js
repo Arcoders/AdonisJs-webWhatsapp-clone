@@ -19,11 +19,11 @@ test('user can create and add friends to the group', async ({ client }) => {
     usersId: [admin.id, user.id]
   }
 
-  const post = await client.post('api/groups/create').send(postData).loginVia(admin).end()
+  const groupCreated = await client.post('api/groups/create').send(postData).loginVia(admin).end()
 
-  post.assertStatus(200)
+  groupCreated.assertStatus(200)
 
-  post.assertJSONSubset({
+  groupCreated.assertJSONSubset({
     status: 'Group created successfully',
     group: {
       name: 'Adonis',
@@ -38,6 +38,25 @@ test('user can create and add friends to the group', async ({ client }) => {
       ]
     } 
   })
+
+})
+
+
+test('group name is required', async ({ client }) => {
+
+  const admin = await Factory.model('App/Models/User').create()
+  
+  const rejected = await client.post('api/groups/create').send({}).loginVia(admin).end()
+
+  rejected.assertStatus(422)
+
+  rejected.assertJSONSubset([
+    {
+      message: 'required validation failed on name',
+      field: 'name',
+      validation: 'required'
+    }
+  ])
 
 })
 
