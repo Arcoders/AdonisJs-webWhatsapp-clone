@@ -17,6 +17,13 @@ class Group extends Model {
     
     }
 
+    messages() {
+
+        return this.hasMany('App/Models/Message', 'id', 'group_chat')
+    
+    }
+
+
 }
 
 module.exports = Group

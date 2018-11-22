@@ -6,26 +6,16 @@ class MessageController {
 
     async send({ request, auth, response }) {
 
-        const { roomName, chatId, body } = request.all()
-
-        const user = await auth.getUser()
-
-        const message = await Message.create({ 
-            body,
-            user_id: user.id,
-            [roomName]: chatId,
-        })
-
-        message.user = user;
+        const message = await Message.send(request, auth)
 
         response.json(message)
     }
 
-    async messages ({ params: { roomName, chatId } }) {
+    async messages ({ params, response }) {
         
-        const messages = await Message.query().where(roomName, chatId).with('user').orderBy('created_at', 'asc').limit(5).fetch();
+        const message = await Message.getMessages(params)
         
-        return { messages }
+        response.json(message)
 
     }
 

@@ -8,8 +8,8 @@ class MessagesSchema extends Schema {
     this.create('messages', (table) => {
       table.increments()
       table.integer('user_id').notNullable()
-      table.string('group_chat').nullable()
-      table.string('friend_chat').nullable()
+      table.integer('group_chat').nullable()
+      table.integer('friend_chat').nullable()
       table.string('body').notNullable()
       table.timestamps()
     })

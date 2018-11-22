@@ -6,6 +6,11 @@ const Model = use('Model')
 
 class Message extends Model {
 
+    static boot () {
+        super.boot()
+        this.addTrait('message/Crud')
+    }
+
     user() {
 
         return this.belongsTo('App/Models/User')
