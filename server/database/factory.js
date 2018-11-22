@@ -45,3 +45,26 @@ Factory.blueprint('App/Models/Group', async (faker, i, data) => {
   return { name, user_id }
 
 })
+
+
+Factory.blueprint('App/Models/Friendship', async (faker, i, data) => {
+
+  const requester =  (data.requester) ? data.requester : await Factory.model('App/Models/User').create().id
+  const requested = (data.requested) ? data.requested : await Factory.model('App/Models/User').create().id
+  const status = (data.status) ? data.status : 0
+
+  return { requester, requested, status }
+
+})
+
+
+Factory.blueprint('App/Models/Message', async (faker, i, data) => {
+
+  const user_id =  (data.user_id) ? data.user_id : await Factory.model('App/Models/User').create().id
+  const friend_chat = (data.friend_chat) ? data.friend_chat : null
+  const group_chat = (data.group_chat) ? data.group_chat : null
+  const body = faker.sentence({ words: 5 })
+  
+  return { user_id, friend_chat, group_chat, body  }
+
+})
