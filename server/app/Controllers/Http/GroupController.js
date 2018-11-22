@@ -1,76 +1,39 @@
 'use strict'
 
 const Group = use('App/Models/Group')
-const Authorization = use('App/Services/Authorization')
-
 
 class GroupController {
 
-    async groups ({ auth, request, response }) {
+    async groups ({ request, auth, response }) {
 
-        const user = await auth.getUser()
+        const groups = await Group.getUserGroups(request, auth)
 
-        const groups = await Group.query().where('user_id', user.id).paginate(request.input('page'), 3)
-
-        response.json({ groups })
+        response.json(groups)
 
     }
 
-    async create ({ auth, request, response }) {
+    async create ({ request, auth, response }) {
 
-        const user = await auth.getUser()
+        const newGroup = await Group.add(request, auth)
 
-        const { name, usersId } = request.all();
-        
-        const group = await Group.create({ name, user_id: user.id })
-
-        group.users = await group.users().attach(this.friendsId(usersId, user.id))
-
-        response.json({
-            status: 'Group created successfully', 
-            group 
-        })
+        response.json(newGroup)
 
     }
 
-    async update ({ auth, request, group, response }) {
+    async update ({ request, auth, group, response }) {
 
-        let { usersId } = request.all();
+        const editedGroup = await Group.edit(request, auth, group)
 
-        const user = await auth.getUser()
-
-        Authorization.check(group.user_id, user)
-
-        group.merge(request.only('name'))
-
-        await group.save()
-        
-        group.users = await group.users().sync(this.friendsId(usersId, user.id))
-
-        response.json({
-            status: 'Group updated successfully', 
-            group
-        })
+        response.json(editedGroup)
 
     }
 
-    async destroy ({ group, auth }) {
+    async destroy ({ auth, group, response }) {
 
-        const user = await auth.getUser()
+        const removedStatus = await Group.remove(auth, group)
 
-        Authorization.check(group.user_id, user)
+        response.json(removedStatus)
 
-        await group.users().detach()
-        await group.delete()
-
-        return { status: 'Group deleted successfully' }
-
-    }
-
-    friendsId(usersId, userId) {
-        if (!(usersId instanceof Array)) return [userId]
-        usersId.push(userId)
-        return [...new Set(usersId)]
     }
 
 }
