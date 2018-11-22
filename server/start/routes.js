@@ -50,4 +50,9 @@ Route.group(() => {
   Route.delete('groups/:group', 'GroupController.destroy').bind('Group')  
   Route.get('groups', 'GroupController.groups')
 
+  // Messages ---------------------------------------------------------
+
+  Route.get('messages/:roomName/:chatId', 'MessageController.messages');
+  Route.post('messages/send', 'MessageController.send')
+
 }).prefix('api').middleware(['auth'])
