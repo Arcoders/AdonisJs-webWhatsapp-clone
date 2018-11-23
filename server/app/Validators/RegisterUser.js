@@ -7,8 +7,8 @@ class RegisterUser {
     
     return {
       email: 'required|email|unique:users,email',
+      username: 'required|max:20|unique:users,username',
       password: 'required|min:6|confirmed',
-      username: 'required|max:20|unique:users,username'
     }
 
   }

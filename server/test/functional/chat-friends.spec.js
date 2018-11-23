@@ -13,7 +13,6 @@ test('get private chat with the last message of the conversation', async ({ clie
   const ismael = await Factory.model('App/Models/User').create({ username: 'Ismael Haytam' })
   const victor = await Factory.model('App/Models/User').create({ username: 'Victor Crack' })
 
-  // Create Friendship
 
   const chat = await Factory.model('App/Models/Friendship').create({
     requester: ismael.id,
@@ -31,10 +30,8 @@ test('get private chat with the last message of the conversation', async ({ clie
     friend_chat: chat.id
   })
   
-  // Login as Ismael and get chats
 
-
-  const ismaelChats = await client.get('api/friends/chats').loginVia(ismael).end()
+  const ismaelChats = await client.get('api/chats').loginVia(ismael).end()
 
   ismaelChats.assertStatus(200)
 
@@ -71,7 +68,7 @@ test('verify that there is no conversation between users', async ({ client }) =>
     status: 1
   })
   
-  const fatimaChats = await client.get('api/friends/chats').loginVia(fatima).end()
+  const fatimaChats = await client.get('api/chats').loginVia(fatima).end()
 
   fatimaChats.assertStatus(200)
 

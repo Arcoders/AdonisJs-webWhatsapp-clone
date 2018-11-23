@@ -10,10 +10,13 @@ const Hash = use('Hash')
 
 class User extends Model {
   static boot () {
+
     super.boot()
+
     this.addTrait('user/Auth')
     this.addTrait('user/Friend')
     this.addTrait('user/Profile')
+    this.addTrait('user/Chat')
 
     /**
      * A hook to hash the user password before saving
@@ -24,6 +27,7 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+
   }
 
   /**

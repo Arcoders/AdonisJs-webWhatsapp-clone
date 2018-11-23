@@ -49,7 +49,7 @@ test('get chat groups with the last message of the conversation', async ({ clien
   // Login as Berto and get groups
 
 
-  const bertoGroups = await client.get('api/friends/chats').loginVia(berto).end()
+  const bertoGroups = await client.get('api/chats').loginVia(berto).end()
 
   bertoGroups.assertStatus(200)
 
@@ -90,7 +90,7 @@ test('verify that the group does not contain messages', async ({ client }) => {
 
   await group.users().attach([anna.id])
 
-  const annaGroups = await client.get('api/friends/chats').loginVia(anna).end()
+  const annaGroups = await client.get('api/chats').loginVia(anna).end()
 
   annaGroups.assertStatus(200)
 

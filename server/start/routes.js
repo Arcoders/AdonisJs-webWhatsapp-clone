@@ -41,7 +41,10 @@ Route.group(() => {
   Route.post('/friends/accept/:senderId', 'FriendShipController.accept')
   Route.delete('/friends/reject/:userId', 'FriendShipController.reject')
   Route.get('/friends/check/:userId', 'FriendShipController.check')
-  Route.get('/friends/chats', 'FriendShipController.chats')
+
+  // Chats ---------------------------------------------------------
+
+  Route.get('/chats', 'ChatController.chats')
 
   // Groups ---------------------------------------------------------
   
