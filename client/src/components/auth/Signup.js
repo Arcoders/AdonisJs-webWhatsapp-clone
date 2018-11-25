@@ -8,7 +8,7 @@ import template from 'templates/auth/signup.pug'
 
 class Signup extends Component {
 
-    onSubmit = fromProps => this.props.signup(fromProps, () => this.props.history.push('/feature'))
+    onSubmit = fromProps => this.props.signup(fromProps, () => this.props.history.push('/wtsp'))
 
     render() {
         return template.call(this, { Field })

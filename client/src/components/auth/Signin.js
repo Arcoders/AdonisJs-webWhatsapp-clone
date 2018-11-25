@@ -8,7 +8,7 @@ import template from 'templates/auth/signin.pug'
 
 class Signin extends Component {
 
-    onSubmit = fromProps => this.props.signin(fromProps, () => this.props.history.push('/feature'))
+    onSubmit = fromProps => this.props.signin(fromProps, () => this.props.history.push('/wtsp'))
 
     render() {
         return template.call(this, { Field })

@@ -1,9 +1,10 @@
 import axios from 'plugins/axios'
-import { AUTH_USER, AUTH_ERROR } from 'actions/types'
+
+import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR } from 'actions/types'
 
 export const signup = (formProps, redirect) => dispatch => {
     
-    return axios().post('http://127.0.0.1:3333/api/auth/register', formProps)
+    return axios().post('/api/auth/register', formProps)
         .then(({ data }) => {
             const { token } = data.jwt
             dispatch({ type: AUTH_USER, payload: token})
@@ -31,7 +32,7 @@ export const signout = () => {
 
 export const signin = (formProps, redirect) => dispatch => {
     
-    return axios().post('http://127.0.0.1:3333/api/auth/login', formProps)
+    return axios().post('/auth/login', formProps)
         .then(({ data }) => {
             const { token } = data.jwt
             dispatch({ type: AUTH_USER, payload: token})
@@ -43,6 +44,20 @@ export const signin = (formProps, redirect) => dispatch => {
             let payload = 'An error has occurred';
             if (error.response.status !== 500) payload = error.response.data.shift().message
             dispatch({ type: AUTH_ERROR, payload })
+        })   
+
+}
+
+export const getChats = () => dispatch => {
+    
+    return axios().get('/chats')
+        .then(({ data }) => {
+            dispatch({ type: CHATS, payload: data})
+        })
+        .catch(error => {
+            let payload = 'An error has occurred';
+            if (error.response.status === 401) payload = 'Invalid Token'
+            dispatch({ type: CHATS_ERROR, payload })
         })   
 
 }

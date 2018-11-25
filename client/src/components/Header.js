@@ -24,12 +24,14 @@ class Header extends Component {
     }
 
     render() {
-        return (
+        return null
+      /*  return (
             <div>
                 <Link to='/'>Redux Auth</Link>
                 {this.renderLinks()}
             </div>
         )
+      */
     }
 
 }
