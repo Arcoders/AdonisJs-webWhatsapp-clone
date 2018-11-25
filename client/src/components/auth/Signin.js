@@ -4,9 +4,9 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from 'actions/'
 
-class Signup extends Component {
+class Signin extends Component {
 
-    onSubmit = fromProps => this.props.signup(fromProps, () => this.props.history.push('/feature'))
+    onSubmit = fromProps => this.props.signin(fromProps, () => this.props.history.push('/feature'))
 
     render() {
 
@@ -20,21 +20,12 @@ class Signup extends Component {
                 </fieldset>
 
                 <fieldset>
-                    <label>Username</label>
-                    <Field name='username' type='text' component='input'/>
-                </fieldset>
-
-                <fieldset>
                     <label>Password</label>
                     <Field name='password' type='password' component='input'/>
                 </fieldset>
 
-                <fieldset>
-                    <label>Confirm Password</label>
-                    <Field name='password_confirmation' type='password' component='input'/>
-                </fieldset>
                 {this.props.errorMessage}
-                <button>Sign Up!</button>
+                <button>Sign In!</button>
             </form>
         )
     }
@@ -45,5 +36,5 @@ const mapStateToProps = state => ({ errorMessage: state.auth.errorMessage })
 
 export default compose(
     connect(mapStateToProps, actions),
-    reduxForm({ form: 'signup' })
-)(Signup)
+    reduxForm({ form: 'signin' })
+)(Signin)
