@@ -5,6 +5,7 @@ import Search from 'components/wtsp/left/Search'
 import List from 'components/wtsp/left/List'
 import template from 'templates/wtsp/left/index.pug'
 
+
 import 'components/wtsp/left/fix.css'
 
 class LeftSide extends Component {

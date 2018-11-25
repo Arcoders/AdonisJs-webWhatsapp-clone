@@ -17,8 +17,13 @@ export default ChildComponent => {
             if (!this.props.auth) this.props.history.push('/')
         }
 
+        renderChilds() {
+            if (this.props.auth) return <ChildComponent {...this.props} />
+            return null
+        }
+
         render() {
-            return <ChildComponent {...this.props} />
+            return <div> {this.renderChilds()} </div>
         }
 
     }
