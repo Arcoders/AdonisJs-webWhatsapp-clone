@@ -5,7 +5,9 @@ export const signup = (formProps, redirect) => dispatch => {
     
     return axios().post('http://127.0.0.1:3333/api/auth/register', formProps)
         .then(({ data }) => {
-            dispatch({ type: AUTH_USER, payload: data.jwt.token })
+            const { token } = data.jwt
+            dispatch({ type: AUTH_USER, payload: token})
+            localStorage.setItem('token', token)
             redirect()
         })
         .catch(error => {
