@@ -1,0 +1,10 @@
+div(className='auth')
+  h2 Sign Up
+  form(className='form', onSubmit='{this.props.handleSubmit(this.onSubmit)}')
+    Field(name='email', type='text', placeholder='Email', component='input')
+    Field(name='username', type='text', placeholder='Username', component='input')
+    Field(name='password', type='password', placeholder='Password', component='input')
+    Field(name='password_confirmation', placeholder='Confirm your password', type='password', component='input')
+    button Sign Up
+    span {this.props.errorMessage}
+

@@ -1,0 +1,7 @@
+div(className='auth')
+  h2 Sign In
+  form(className='form', onSubmit='{this.props.handleSubmit(this.onSubmit)}')
+    Field(name='email', type='text', placeholder='Email', component='input')
+    Field(name='password', type='password', placeholder='Password', component='input')
+    button Sign In!
+    span {this.props.errorMessage}

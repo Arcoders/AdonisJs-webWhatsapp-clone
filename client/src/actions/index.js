@@ -7,6 +7,7 @@ export const signup = (formProps, redirect) => dispatch => {
         .then(({ data }) => {
             const { token } = data.jwt
             dispatch({ type: AUTH_USER, payload: token})
+            dispatch({ type: AUTH_ERROR, payload: null })
             localStorage.setItem('token', token)
             redirect()
         })
@@ -34,6 +35,7 @@ export const signin = (formProps, redirect) => dispatch => {
         .then(({ data }) => {
             const { token } = data.jwt
             dispatch({ type: AUTH_USER, payload: token})
+            dispatch({ type: AUTH_ERROR, payload: null })
             localStorage.setItem('token', token)
             redirect()
         })

@@ -22,17 +22,19 @@ const store = createStore(
 )
 
 ReactDom.render(
-    <Provider store={store}>
-        <BrowserRouter>
-            <App>
-                <Route path='/' exact component={Welcome} />
-                <Route path='/signup' component={Signup} />
-                <Route path='/feature' component={Feature} />
-                <Route path='/signout' component={Signout} />
-                <Route path='/signin' component={Signin} />
-            </App>
-        </BrowserRouter>
-    </Provider>
+    <div className='green_background'>
+        <Provider store={store}>
+            <BrowserRouter>
+                <App>
+                    <Route path='/' exact component={Welcome} />
+                    <Route path='/signup' component={Signup} />
+                    <Route path='/feature' component={Feature} />
+                    <Route path='/signout' component={Signout} />
+                    <Route path='/signin' component={Signin} />
+                </App>
+            </BrowserRouter>
+        </Provider>
+    </div>
     ,
     document.querySelector('#app')
 )
