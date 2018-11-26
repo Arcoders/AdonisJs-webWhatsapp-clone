@@ -1,7 +1,7 @@
 .left_app
 
     .menu
-        a
+        NavLink(to="{this.props.match.path + '/profile'}")
             Avatar.avatar(name='Ismael Haytam' size='45' round='{true}')
 
         a Ismael Haytam
@@ -18,6 +18,6 @@
     Search
 
     .filter
-        button Friends
-        button Groups
+        button(onClick='{() => this.props.chatsToggle(this.props.toggleStatus)}' className='{button.friends}') Friends
+        button(onClick='{() => this.props.chatsToggle(this.props.toggleStatus)}' className='{button.groups}') Groups
     List

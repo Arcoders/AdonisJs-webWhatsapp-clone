@@ -1,27 +1,51 @@
 .contact_list
 
-    .contact(@repeat='this.props.chatsList.friends as friend')
-        a
-            Avatar.avatar(name='{friend.user.username}' size='55' round='{true}')
-        .preview
-            .text
-                h5 
-                    a { friend.user.username }
-                h6
-                    span(@if='friend.message')
-                        span(@if='friend.message.body && friend.message.photo')
-                            i.material-icons.photo photo
-                            | {friend.message.body }
-                        span(@if='friend.message.body') { friend.message.body }
-                        span(@if='friend.message.photo')
-                            i.material-icons.photo photo
-                            | a photo has been shared
-                    span(@if='!friend.message') Empty chat...
+    .section(@if='this.props.toggleStatus')
+        .contact(@repeat='this.props.chatsList.friends as friend')
+            a
+                Avatar.avatar(name='{friend.user.username}' size='55' round='{true}')
+            .preview
+                .text
+                    h5 
+                        a { friend.user.username }
+                    h6
+                        span(@if='friend.message')
+                            span(@if='friend.message.body && friend.message.photo')
+                                i.material-icons.photo photo
+                                | {friend.message.body }
+                            span(@if='friend.message.body') { friend.message.body }
+                            span(@if='friend.message.photo')
+                                i.material-icons.photo photo
+                                | a photo has been shared
+                        span(@if='!friend.message') Empty chat...
 
-        .time
-            p(@if='friend.message') 27:36
-            i.material-icons(@if='!friend.message') fiber_new
-    
+            .time
+                p(@if='friend.message') 27:36
+                i.material-icons(@if='!friend.message') fiber_new
+
+    .section(@unless='this.props.toggleStatus')
+        .contact(@repeat='this.props.chatsList.groups as group')
+            a
+                Avatar.avatar(name='{group.name}' size='55' round='{true}')
+            .preview
+                .text
+                    h5 
+                        a { group.name }
+                    h6
+                        span(@if='group.message')
+                            span(@if='group.message.body && group.message.photo')
+                                i.material-icons.photo photo
+                                | {friend.message.body }
+                            span(@if='group.message.body') { group.message.body }
+                            span(@if='group.message.photo')
+                                i.material-icons.photo photo
+                                | a photo has been shared
+                        span(@if='!group.message') Empty chat...
+
+            .time
+                p(@if='group.message') 27:36
+                i.material-icons(@if='!group.message') fiber_new
+            
 
         
 

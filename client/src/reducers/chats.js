@@ -1,9 +1,10 @@
-import { CHATS, CHATS_ERROR } from 'actions/types'
+import { CHATS, CHATS_ERROR, CHATS_TOGGLE } from 'actions/types'
 
 const INITIAL_STATE = {
     chatsList: [],
     chatsError: null,
-    chatsLoading: false 
+    chatsLoading: false,
+    toggleStatus: true
 }
 
 export default function(state = INITIAL_STATE, action) {
@@ -13,6 +14,8 @@ export default function(state = INITIAL_STATE, action) {
             return { ...state, chatsList: action.payload }
         case CHATS_ERROR:
             return { ...state, chatsError: action.payload }
+        case CHATS_TOGGLE:
+            return { ...state, toggleStatus: action.payload }
         default:
             return state
     }

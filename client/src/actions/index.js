@@ -1,6 +1,6 @@
 import axios from 'plugins/axios'
 
-import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR } from 'actions/types'
+import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR, CHATS_TOGGLE } from 'actions/types'
 
 export const signup = (formProps, redirect) => dispatch => {
     
@@ -61,3 +61,5 @@ export const getChats = () => dispatch => {
         })   
 
 }
+
+export const chatsToggle = (status) => dispatch => dispatch({ type: CHATS_TOGGLE, payload: !status })

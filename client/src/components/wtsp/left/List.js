@@ -14,8 +14,7 @@ class List extends Component {
     }
 
     render() {
-        const friends = false
-        return template.call(this, { friends, Avatar })
+        return template.call(this, { Avatar })
     }
 
 }

@@ -1,33 +1,53 @@
-import React from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import React, { Component } from 'react'
 
 import Welcome from 'components/wtsp/right/Welcome'
+import Profile from 'components/wtsp/right/profile/Profile'
 import RightSide from 'components/wtsp/right/RightSide'
 import LeftSide from 'components/wtsp/left/LeftSide'
 
 import requireAuth from 'components/auth/RequireAuth'
 
 
-const Home = ({ match }) => {
-    return (
-        <div className='wrap'>
+class Home extends Component {
 
-            <div className='left'>
-                <LeftSide />
+    state = { component: (<Welcome />) }
+
+    componentDidMount() {
+        this.dinamicComponents()
+    }
+
+    dinamicComponents() {
+        this.actualRoute()
+        this.props.history.listen(location => this.actualRoute(location.pathname))
+    }
+
+    actualRoute(location = this.props.history.location.pathname) {
+        
+        let component = this.state.component
+
+        switch(location) {
+            case '/wtsp/profile':
+                component = <Profile />
+                break
+            default:
+                component = <Welcome />
+        }
+
+        this.setState({ component })
+    }
+
+    render () {
+        return (
+            <div className='wrap'>
+    
+                <div className='left'><LeftSide /></div>
+    
+                <div className='right'><RightSide>{this.state.component}</RightSide></div>
+    
             </div>
+        )
+    }
 
-            <div className='right'> 
-                
-                <BrowserRouter>
-                    <RightSide>
-                        <Route exact path={match.path} component={Welcome} />
-                    </RightSide>
-                </BrowserRouter>
-
-            </div>
-
-        </div>
-    )
 }
 
 export default requireAuth(Home)
