@@ -1,0 +1,5 @@
+section 
+    .list(@repeat='this.props.randomUsers.friends as user')
+
+        Avatar.image(name='{user.username}' size='60')
+        button.name { user.username }

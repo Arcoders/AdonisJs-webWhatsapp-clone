@@ -18,6 +18,14 @@ class ProfileController {
 
     }
 
+    async users ({ auth, response }) {
+
+        const friends = await User.getRandomUsers(auth)
+
+        response.json(friends)
+
+    }
+
 
 }
 

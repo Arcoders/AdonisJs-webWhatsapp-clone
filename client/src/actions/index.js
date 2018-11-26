@@ -1,6 +1,6 @@
 import axios from 'plugins/axios'
 
-import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR, CHATS_TOGGLE } from 'actions/types'
+import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR, CHATS_TOGGLE, RANDOM_USERS, RANDOM_USERS_ERROR } from 'actions/types'
 
 export const signup = (formProps, redirect) => dispatch => {
     
@@ -34,10 +34,9 @@ export const signin = (formProps, redirect) => dispatch => {
     
     return axios().post('/auth/login', formProps)
         .then(({ data }) => {
-            const { token } = data.jwt
-            dispatch({ type: AUTH_USER, payload: token})
+            dispatch({ type: AUTH_USER, payload: data.jwt.token})
             dispatch({ type: AUTH_ERROR, payload: null })
-            localStorage.setItem('token', token)
+            localStorage.setItem('auth', JSON.stringify(data))
             redirect()
         })
         .catch(error => {
@@ -63,3 +62,18 @@ export const getChats = () => dispatch => {
 }
 
 export const chatsToggle = (status) => dispatch => dispatch({ type: CHATS_TOGGLE, payload: !status })
+
+
+export const getUsers = () => dispatch => {
+    
+    return axios().get('/profile')
+        .then(({ data }) => {
+            dispatch({ type: RANDOM_USERS, payload: data})
+        })
+        .catch(error => {
+            let payload = 'An error has occurred';
+            if (error.response.status === 401) payload = 'Invalid Token'
+            dispatch({ type: RANDOM_USERS_ERROR, payload })
+        })   
+
+}

@@ -31,7 +31,7 @@ Route.group(() => {
 
   // Profile ---------------------------------------------------------
 
-  Route.get('/profile', 'UserController.users')
+  Route.get('/profile', 'ProfileController.users')
   Route.patch('/profile/:userId', 'ProfileController.edit').validator('EditUser')
   Route.get('/profile/:user', 'ProfileController.getUser').bind('User')
 

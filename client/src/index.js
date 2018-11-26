@@ -17,7 +17,7 @@ import Whatsapp from 'components/wtsp/Whatsapp'
 const store = createStore(
     reducers,
     {
-        auth: { authenticated: localStorage.getItem('token') }
+        auth: { authenticated: JSON.parse(localStorage.getItem('auth')) }
     },
     applyMiddleware(reduxThunk)
 )

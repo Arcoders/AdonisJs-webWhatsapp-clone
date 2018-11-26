@@ -1,1 +1,25 @@
-h2 Profile....
+.right()
+    .head
+
+        h1
+            Link(to='/wtsp/profile/edit')
+                i.material-icons edit_location
+
+        .info
+            p Profile
+            p.name Ismael
+
+    .profile_box
+        .information
+            .widget
+                .cover
+                    img(v-if="userProfile.cover" src="https://fondos.fondoshd.com/images/800/hoja-en-otono-51fde58850a40.jpg")
+
+                Avatar.photo(name='{this.props.authenticated.user.username}' size='120')
+
+                h1 {this.props.authenticated.user.username}
+                h2 lorem ipsum dolor set amit
+
+            .users(v-if="!profileId")
+
+                ListUsers
