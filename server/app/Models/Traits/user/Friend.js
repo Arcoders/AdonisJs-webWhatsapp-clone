@@ -1,6 +1,7 @@
 'use strict'
 const Friendship = use('App/Models/Friendship')
 const renameKeys = use('rename-keys');
+const Event = use('Event')
 
 class Friend {
   register (Model) {
@@ -12,6 +13,8 @@ class Friend {
       if (status === 'not_friends') {
         
         await Friendship.create({ requester: currentUserId, requested: recipientId, status: 0 })
+
+        await Event.fire('requestSent', { userId: recipientId, currentUserId })
 
         return 'waiting'
 

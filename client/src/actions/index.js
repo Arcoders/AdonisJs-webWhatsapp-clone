@@ -35,7 +35,7 @@ export const signin = (formProps, redirect) => dispatch => {
     
     return axios().post('/auth/login', formProps)
         .then(({ data }) => {
-            dispatch({ type: AUTH_USER, payload: data.jwt.token})
+            dispatch({ type: AUTH_USER, payload: data})
             dispatch({ type: AUTH_ERROR, payload: null })
             localStorage.setItem('auth', JSON.stringify(data))
             redirect()

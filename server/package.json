@@ -27,6 +27,7 @@
     "@adonisjs/validator": "^5.0.6",
     "@adonisjs/vow": "^1.0.17",
     "mysql": "^2.16.0",
+    "pusher": "^2.2.0",
     "rename-keys": "^2.0.1",
     "route-model-binding-adonisjs": "^1.0.3"
   },
