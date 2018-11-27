@@ -1,6 +1,7 @@
 import axios from 'plugins/axios'
+import event from 'plugins/bus'
 
-import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR, CHATS_TOGGLE, RANDOM_USERS, RANDOM_USERS_ERROR } from 'actions/types'
+import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR, CHATS_TOGGLE, RANDOM_USERS, RANDOM_USERS_ERROR, USER, USER_ERROR } from 'actions/types'
 
 export const signup = (formProps, redirect) => dispatch => {
     
@@ -68,12 +69,29 @@ export const getUsers = () => dispatch => {
     
     return axios().get('/profile')
         .then(({ data }) => {
-            dispatch({ type: RANDOM_USERS, payload: data})
+            let users = data.friends.sort(() => Math.random() - 0.5)
+            if (users.length >= 12) users = users.slice(0, 12);
+            dispatch({ type: RANDOM_USERS, payload: users})
         })
         .catch(error => {
             let payload = 'An error has occurred';
             if (error.response.status === 401) payload = 'Invalid Token'
             dispatch({ type: RANDOM_USERS_ERROR, payload })
         })   
+
+}
+
+export const getUserById = id => dispatch => {
+    return axios().get(`/profile/${id}`)
+    .then(({ data }) => {
+        const { user } = data
+        dispatch({ type: USER, payload: user})
+        event.$emit('new_user_profile', user)
+    })
+    .catch(error => {
+        let payload = 'An error has occurred';
+        if (error.response.status === 401) payload = 'Invalid Token'
+        dispatch({ type: USER_ERROR, payload })
+    })   
 
 }

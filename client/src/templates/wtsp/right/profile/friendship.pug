@@ -1,0 +1,16 @@
+.friends
+        .style_friend.add_friend
+
+            button(@if='this.state.status === "not_friends"' onClick='{this.addFriend.bind(this)}')
+                i.material-icons person_add
+            button.green(@if='this.state.status === "pending"' onClick='{this.acceptFriend.bind(this)}')
+                i.material-icons done_all
+            button.green(@if='this.state.status === "waiting"')
+                i.material-icons near_me
+            button.accepted(@if='this.state.status === "friends"')
+                    i.material-icons favorite
+
+        .style_friend.delete_friend(@if='this.state.status !== "not_friends"')
+
+            button.orange(onClick='{this.rejectFriend.bind(this)}')
+                i.material-icons clear

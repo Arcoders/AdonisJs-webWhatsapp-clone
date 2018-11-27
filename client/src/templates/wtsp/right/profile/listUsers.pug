@@ -1,5 +1,7 @@
 section 
-    .list(@repeat='this.props.randomUsers.friends as user')
-
+    .list(@repeat='this.props.randomUsers as user')
         Avatar.image(name='{user.username}' size='60')
-        button.name { user.username }
+        button.name(onClick='{() => this.props.getUserById(user.id)}') { user.username }
+    .list(v-if="records")
+        button.random(onClick='{this.listUsers.bind(this)}')
+            i.material-icons cached

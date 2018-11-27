@@ -9,7 +9,12 @@ import template from 'templates/wtsp/right/profile/listUsers.pug'
 
 class ListUsers extends Component {
 
-    async componentDidMount() {
+
+    componentDidMount() {
+        this.listUsers()
+    }
+
+    async listUsers() {
         await this.props.getUsers()
     }
 

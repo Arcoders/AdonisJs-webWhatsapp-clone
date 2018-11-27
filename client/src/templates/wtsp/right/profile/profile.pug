@@ -7,19 +7,20 @@
 
         .info
             p Profile
-            p.name Ismael
+            p.name {this.state.user.username}
 
     .profile_box
         .information
             .widget
                 .cover
                     img(v-if="userProfile.cover" src="https://fondos.fondoshd.com/images/800/hoja-en-otono-51fde58850a40.jpg")
+                    Friendship(@if='this.props.auth.authenticated.user.id !== this.state.user.id' currentUserId='{this.state.user.id}')
 
-                Avatar.photo(name='{this.props.authenticated.user.username}' size='120')
+                Avatar.photo(name='{this.state.user.username}' size='120')
 
-                h1 {this.props.authenticated.user.username}
+                h1 {this.state.user.username}
                 h2 lorem ipsum dolor set amit
 
             .users(v-if="!profileId")
 
-                ListUsers
+                ListUsers(changeUser='{this.changeUser}')
