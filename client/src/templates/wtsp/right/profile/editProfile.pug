@@ -1,0 +1,25 @@
+.edit_user
+
+    form(encType="multipart/form-data")
+
+        h1 Edit information
+
+        input.info(type='text' placeholder='Username' onChange='{e => this.handleUsername(e)}')
+
+        input.info(type='text'  placeholder='Description')
+
+        h1 Select avatar
+
+        label.upload_profile
+            .area
+                i.material-icons.edit_i photo_camera
+            input(type="file" name="Avatar"  ref='Avatar' onChange='{e => this.handleFileChange(e)}')
+
+        h1 Select cover
+
+        label.upload_profile
+            .area
+                i.material-icons.edit_i photo_size_select_actual
+            input(type='file' name='Cover' ref='Cover')
+
+        button.save() Save

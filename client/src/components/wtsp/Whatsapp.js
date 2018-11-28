@@ -25,12 +25,20 @@ class Home extends Component {
         
         let component = this.state.component
 
-        switch(location) {
-            case '/wtsp/profile':
-                component = <Profile />
-                break
-            default:
-                component = <Welcome />
+        const profileId = location.split('/').pop()
+
+        if (isNaN(profileId)) {
+            
+            switch(location) {
+                case '/wtsp/profile':
+                    component = <Profile />
+                    break
+                default:
+                    component = <Welcome />
+            }
+
+        } else {
+            component = <Profile profileId={profileId}/>
         }
 
         this.setState({ component })

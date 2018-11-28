@@ -2,8 +2,12 @@
     .head
 
         h1
-            Link(to='/wtsp/profile/edit')
+            button.transparent(@unless='this.state.editProfile' onClick='{this.toggleEdit.bind(this)}')
                 i.material-icons edit_location
+
+            button.transparent(@if='this.state.editProfile' onClick='{this.toggleEdit.bind(this)}')
+                i.material-icons arrow_back
+            
 
         .info
             p Profile
@@ -16,11 +20,15 @@
                     img(v-if="userProfile.cover" src="https://fondos.fondoshd.com/images/800/hoja-en-otono-51fde58850a40.jpg")
                     Friendship(@if='this.props.auth.authenticated.user.id !== this.state.user.id' currentUserId='{this.state.user.id}' authenticatedUserId='{this.props.auth.authenticated.user.id}')
 
-                Avatar.photo(name='{this.state.user.username}' size='120')
+                Avatar.photo(name='{this.state.user.username}' src='{this.state.user.avatar}' size='120')
 
                 h1 {this.state.user.username}
                 h2 lorem ipsum dolor set amit
 
-            .users(v-if="!profileId")
+            .users(@unless='this.state.editProfile')
 
                 ListUsers(changeUser='{this.changeUser}')
+
+            .users(@if='this.state.editProfile')
+
+                EditProfile

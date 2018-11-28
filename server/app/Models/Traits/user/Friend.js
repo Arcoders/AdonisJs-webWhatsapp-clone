@@ -33,6 +33,8 @@ class Friend {
 
         await Friendship.query().betweenUsers(senderId, currentUserId).update({ status: 1 })
 
+        await Event.fire('updateFriendshipStatus', { userId: senderId, currentUserId })
+
         return 'friends'
 
       }
@@ -49,6 +51,8 @@ class Friend {
       if (status !== 'not_friends') {
 
         await Friendship.query().betweenUsers(userId, currentUserId).delete()
+
+        await Event.fire('updateFriendshipStatus', { userId, currentUserId })
 
         return 'not_friends'
 

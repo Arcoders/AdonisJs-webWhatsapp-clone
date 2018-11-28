@@ -17,7 +17,7 @@ Event.on('group', async (userId) => {
 Event.on('updateFriendshipStatus', async (data) => {
   const channels = [`user${data.userId}`, `user${data.currentUserId}`]
   pusher.trigger(channels, 'friendship', [])
-  pusher.trigger(channels, 'refreshList', { type: 'private' })
+  pusher.trigger(channels, 'refreshList', { type: 'friends' })
 })
 
 Event.on('requestSent', async (data) => {

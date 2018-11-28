@@ -17,14 +17,14 @@ class LeftSide extends Component {
 
     render() {
         const button = {
-            friends: this.props.toggleStatus ? 'active' : null,
-            groups: this.props.toggleStatus ? null : 'active'
+            friends: this.props.chats.toggleStatus ? 'active' : null,
+            groups: this.props.chats.toggleStatus ? null : 'active'
         }
         return template.call(this, { button ,Search, Avatar, List, NavLink })
     }
 
 }
 
-const mapStateToProps = ({ chats }) => chats
+const mapStateToProps = state => state
 
 export default compose(connect(mapStateToProps, actions))(withRouter(LeftSide))

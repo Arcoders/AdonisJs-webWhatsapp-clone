@@ -64,6 +64,11 @@ export const getChats = () => dispatch => {
 
 export const chatsToggle = (status) => dispatch => dispatch({ type: CHATS_TOGGLE, payload: !status })
 
+export const toggleChatTo= (data) => dispatch => {
+    if (data.type === 'friends') return dispatch({ type: CHATS_TOGGLE, payload: true })
+    if (data.type === 'group') return dispatch({ type: CHATS_TOGGLE, payload: false })
+}
+
 
 export const getUsers = () => dispatch => {
     

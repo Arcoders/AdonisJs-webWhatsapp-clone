@@ -1,7 +1,7 @@
 .contact_list
 
-    .section(@if='this.props.toggleStatus')
-        .contact(@repeat='this.props.chatsList.friends as friend')
+    .section(@if='this.props.chats.toggleStatus')
+        .contact(@repeat='this.props.chats.chatsList.friends as friend')
             a
                 Avatar.avatar(name='{friend.user.username}' size='55' round='{true}')
             .preview
@@ -23,8 +23,8 @@
                 p(@if='friend.message') 27:36
                 i.material-icons(@if='!friend.message') fiber_new
 
-    .section(@unless='this.props.toggleStatus')
-        .contact(@repeat='this.props.chatsList.groups as group')
+    .section(@unless='this.props.chats.toggleStatus')
+        .contact(@repeat='this.props.chats.chatsList.groups as group')
             a
                 Avatar.avatar(name='{group.name}' size='55' round='{true}')
             .preview
