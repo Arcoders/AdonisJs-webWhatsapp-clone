@@ -8,7 +8,23 @@ import template from 'templates/wtsp/right/chat/send.pug'
 
 class Send extends Component {
     
-    state = {}
+    state = {
+        message: null,
+    }
+
+    async sendForm(event) {
+        event.preventDefault()
+        let body = {
+            roomName: `${this.props.roomType}_chat`,
+            chatId: this.props.chatId,
+            body: this.state.message
+        }
+        await this.props.sendMessage(body)
+    }
+
+    handleMessage(event) {
+        this.setState({ message: event.target.value})
+    }
 
     render() {
         return template.call(this, {})

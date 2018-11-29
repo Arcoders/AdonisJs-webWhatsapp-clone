@@ -44,10 +44,14 @@ class ChatBox extends Component {
     getChatByUserName() {
 
         if (Object.keys(this.state.rooms).length) {
-            let activeRoom = this.props.chats.chatsList[this.props.roomType].find(room => {
+            let room = this.props.chats.chatsList[this.props.roomType].find(room => {
                 const roomName = (room.user) ? room.user.username : room.name
                 return roomName === this.friendName()
             })
+            let activeRoom = {
+                id: room.id,
+                name: room.user ?  room.user.username : room.name
+            }
             this.setState({ activeRoom }, () => {
                 this.getMessages()
             })

@@ -3,11 +3,11 @@ div
 
         .head
 
-            Avatar.img(name='{this.state.activeRoom.user.username}' size='50')
+            Avatar.img(name='{this.state.activeRoom.name}' size='50')
 
             .info
 
-                p {this.state.activeRoom.user.username}
+                p {this.state.activeRoom.name}
                 
                 p.online(v-if="onlineUsers.length > 1")
                     span(v-for="onlineUser in onlineUsers" v-if="user._id != onlineUser.id") Victor el salvaje
@@ -22,4 +22,4 @@ div
 
                 Messages(allMessages='{this.state.allMessages}')
 
-        Send
+        Send(chatId='{this.state.activeRoom.id}' roomType="{this.props.roomType === 'friends' ? 'friend' : 'group'}")

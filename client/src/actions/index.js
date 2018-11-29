@@ -112,12 +112,26 @@ export const getUserById = id => dispatch => {
 export const getMessages = (roomType, roomId) => dispatch => {
     return axios().get(`messages/${roomType}/${roomId}`)
     .then(({data}) => {
-        dispatch({ type: MESSAGES, payload: data.messages})
+        dispatch({ type: MESSAGES, payload: data.messages.reverse()})
     })
     .catch(error => {
         let payload = 'An error has occurred';
         if (error.response.status === 401) payload = 'Invalid Token'
         dispatch({ type: MESSAGES_ERROR, payload })
     })   
+
+}
+
+
+export const sendMessage = (formProps) => dispatch => {
+    
+    console.log(formProps)
+
+    return axios().post('/messages/send', formProps)
+        .then((data) => {
+            console.log(data)
+        })
+        .catch(error => {
+        })   
 
 }

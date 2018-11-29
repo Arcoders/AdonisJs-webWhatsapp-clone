@@ -29,7 +29,7 @@ class Crud {
 
       const { roomName, chatId } = params
 
-      const messages = await Message.query().where(roomName, chatId).with('user').orderBy('created_at', 'asc').limit(3).fetch();
+      const messages = await Message.query().where(roomName, chatId).with('user').orderBy('created_at', 'desc').limit(8).fetch();
 
       return { messages }
 

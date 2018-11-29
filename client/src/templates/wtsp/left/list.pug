@@ -25,8 +25,8 @@
 
     .section(@unless='this.props.chats.toggleStatus')
         .contact(@repeat='this.props.chats.chatsList.groups as group')
-            a
-                Avatar.avatar(name='{group.name}' size='55' round='{true}')
+            NavLink(to="{this.props.match.path + '/groups/' + this.format(group.name)}")
+                Avatar.photo(name='{group.name}' size='55')
             .preview
                 .text
                     h5 

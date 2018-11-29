@@ -1,12 +1,12 @@
-form.send(method='POST' encType='multipart/form-data')
+form.send(encType='multipart/form-data')
 
     button(type='button' @click='toggleModal')
 
         i.material-icons() photo_camera
 
     .message
-        input#msg()
+        input#msg(onChange='{this.handleMessage.bind(this)}' autoComplete='off')
 
     button(type='button' @click="send")
 
-        i.material-icons() send
+        i.material-icons(onClick='{this.sendForm.bind(this)}') send

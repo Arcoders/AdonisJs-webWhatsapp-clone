@@ -43,8 +43,10 @@ class Home extends Component {
         }
 
         const friendChat = location.match(/friends/gi)
+        const groupChat = location.match(/groups/gi)
 
         if (friendChat) component = <ChatBox roomType={friendChat[0]} location={location} />
+        if (groupChat) component = <ChatBox roomType={groupChat[0]} location={location} />
 
         this.setState({ component })
     }
