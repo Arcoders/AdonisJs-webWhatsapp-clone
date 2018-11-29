@@ -2,8 +2,8 @@
 
     .section(@if='this.props.chats.toggleStatus')
         .contact(@repeat='this.props.chats.chatsList.friends as friend')
-            a
-                Avatar.avatar(name='{friend.user.username}' size='55' round='{true}')
+            NavLink(to="{this.props.match.path + '/friends/' + this.format(friend.user.username)}")
+                Avatar.photo(name='{friend.user.username}' size='55')
             .preview
                 .text
                     h5 

@@ -1,7 +1,7 @@
 import { CHATS, CHATS_ERROR, CHATS_TOGGLE } from 'actions/types'
 
 const INITIAL_STATE = {
-    chatsList: [],
+    chatsList: {},
     chatsError: null,
     chatsLoading: false,
     toggleStatus: true

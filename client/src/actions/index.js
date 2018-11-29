@@ -1,7 +1,14 @@
 import axios from 'plugins/axios'
 import event from 'plugins/bus'
 
-import { AUTH_USER, AUTH_ERROR, CHATS, CHATS_ERROR, CHATS_TOGGLE, RANDOM_USERS, RANDOM_USERS_ERROR, USER, USER_ERROR } from 'actions/types'
+import { 
+    AUTH_USER, AUTH_ERROR, 
+    CHATS, CHATS_ERROR, CHATS_TOGGLE, 
+    RANDOM_USERS, RANDOM_USERS_ERROR, 
+    USER, USER_ERROR, 
+    MESSAGES, MESSAGES_ERROR
+} 
+from 'actions/types'
 
 export const signup = (formProps, redirect) => dispatch => {
     
@@ -53,6 +60,7 @@ export const getChats = () => dispatch => {
     return axios().get('/chats')
         .then(({ data }) => {
             dispatch({ type: CHATS, payload: data})
+            event.$emit('show_chat', true)
         })
         .catch(error => {
             let payload = 'An error has occurred';
@@ -97,6 +105,19 @@ export const getUserById = id => dispatch => {
         let payload = 'An error has occurred';
         if (error.response.status === 401) payload = 'Invalid Token'
         dispatch({ type: USER_ERROR, payload })
+    })   
+
+}
+
+export const getMessages = (roomType, roomId) => dispatch => {
+    return axios().get(`messages/${roomType}/${roomId}`)
+    .then(({data}) => {
+        dispatch({ type: MESSAGES, payload: data.messages})
+    })
+    .catch(error => {
+        let payload = 'An error has occurred';
+        if (error.response.status === 401) payload = 'Invalid Token'
+        dispatch({ type: MESSAGES_ERROR, payload })
     })   
 
 }

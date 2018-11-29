@@ -1,0 +1,25 @@
+div
+    .chat(@if='this.state.activeRoom')
+
+        .head
+
+            Avatar.img(name='{this.state.activeRoom.user.username}' size='50')
+
+            .info
+
+                p {this.state.activeRoom.user.username}
+                
+                p.online(v-if="onlineUsers.length > 1")
+                    span(v-for="onlineUser in onlineUsers" v-if="user._id != onlineUser.id") Victor el salvaje
+                        span.state.green &#8226; 
+
+                p.online(v-else) Offline
+                    span.state.red &#8226;
+
+        .chat_box
+
+            .chat_content#chat
+
+                Messages(allMessages='{this.state.allMessages}')
+
+        Send

@@ -545,6 +545,7 @@
     min-height: 50px;
     margin: 5px 20px;
     border-radius: 50%;
+    color: white;
   }
   .icon {
     margin: 10px 20px;
@@ -713,6 +714,9 @@
     max-width: 350px;
     height: auto;
     position: relative;
+  }
+  .avatar {
+    color: white;
   }
   .friend {
     background: #ffffff;

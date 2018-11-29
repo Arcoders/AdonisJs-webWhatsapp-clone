@@ -18,7 +18,7 @@ class Friendship extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.currentUserId !== nextProps.currentUserId) this.relationshipStatus(nextProps.currentUserId)
-      }
+    }
 
     relationshipStatus(userId = this.props.currentUserId) {
         return axios().get(`/friends/check/${userId}`).then(({ data }) => {

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Welcome from 'components/wtsp/right/Welcome'
 import Profile from 'components/wtsp/right/profile/Profile'
 import RightSide from 'components/wtsp/right/RightSide'
+import ChatBox from 'components/wtsp/right/chat/ChatBox'
 import LeftSide from 'components/wtsp/left/LeftSide'
 
 import requireAuth from 'components/auth/RequireAuth'
@@ -40,6 +41,10 @@ class Home extends Component {
         } else {
             component = <Profile profileId={profileId}/>
         }
+
+        const friendChat = location.match(/friends/gi)
+
+        if (friendChat) component = <ChatBox roomType={friendChat[0]} location={location} />
 
         this.setState({ component })
     }

@@ -1,0 +1,16 @@
+.bubble
+
+        div(@repeat='this.props.allMessages as message' className='{this.messageClass(message.user.id) ? "line user" : "line friend"}')
+        
+            div(className='{this.messageClass(message.user.id) ? "user_mouth" : "friend_mouth"}')
+
+                Avatar.avatar(name='{message.user.username}' size='45' className="{this.messageClass(message.user.id) ? 'user_img' : 'friend_img'}")
+
+            .content
+                div(@if='message.photo')
+                    img(src='{message.photo}')
+                p  { message.body }
+
+            .time(@unless='message.error') { message.time }
+            .time(@if='message.error')
+                i.material-icons.error error

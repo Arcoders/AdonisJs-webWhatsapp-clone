@@ -16,6 +16,9 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  .avatar {
+    color: white;
+  }
   a {
     color: #777777;
     text-decoration: none;
@@ -164,7 +167,7 @@
   .photo {
     margin-right: 5px;
     color: #eeeeee;
-    font-size: 15px;
+    font-size: 20px;
   }
   .time {
     margin: 30px 10px;

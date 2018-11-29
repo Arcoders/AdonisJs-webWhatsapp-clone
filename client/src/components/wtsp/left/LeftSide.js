@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import * as actions from 'actions/'
 
-import Avatar from 'react-avatar'
+import Avatar from 'react-user-avatar'
 
 import Search from 'components/wtsp/left/Search'
 import List from 'components/wtsp/left/List'
