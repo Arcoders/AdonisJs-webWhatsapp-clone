@@ -1,8 +1,11 @@
 form.send(encType='multipart/form-data')
 
-    button(type='button' @click='toggleModal')
+    button(type='button' onClick='{this.props.toggleModal}')
 
-        i.material-icons() photo_camera
+        span(@if='this.props.modal')
+            i.material-icons(class='green') photo_camera
+        span(@unless='this.props.modal')
+            i.material-icons() photo_camera
 
     .message
         input#msg(onChange='{this.handleMessage.bind(this)}' autoComplete='off' value='{this.state.message}')

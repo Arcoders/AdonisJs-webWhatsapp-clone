@@ -19,8 +19,19 @@ div
         .chat_box
 
             .chat_content#chat
-            
 
                 Messages(allMessages='{this.state.allMessages}')
 
-        Send(chatId='{this.state.activeRoom.id}' roomType="{this.props.roomType === 'friends' ? 'friend' : 'group'}")
+            .modal(@if='this.state.modal')
+
+                .container(@unless='this.state.photo')
+                    label.upload_photo
+                        i.material-icons file_upload
+                        input(type="file" name="photo" onChange='{this.handleFileChange.bind(this)}')
+                .container(@if='this.state.photo')
+                    .preview
+                        img(src="{this.state.photo}")
+                        a(onClick="{this.resetPhoto.bind(this)}")
+                            i.material-icons clear
+            
+        Send(chatId='{this.state.activeRoom.id}' modal='{this.state.modal}' toggleModal='{this.toggleModal.bind(this)}' roomType="{this.props.roomType === 'friends' ? 'friend' : 'group'}")

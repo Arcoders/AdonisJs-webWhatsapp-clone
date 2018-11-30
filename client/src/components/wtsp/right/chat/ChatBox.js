@@ -21,7 +21,9 @@ class ChatBox extends Component {
         userChat:  this.props.location.split('/').pop(),
         rooms: this.props.chats.chatsList,
         activeRoom: null,
-        allMessages: []
+        allMessages: [],
+        modal: false,
+        photo: null
      }
 
      
@@ -36,6 +38,21 @@ class ChatBox extends Component {
         })
     }
 
+    toggleModal() {
+        this.setState({ modal: !this.state.modal })
+        this.resetPhoto()
+    }
+
+    handleFileChange(e) {
+        let files = e.target.files
+        let reader = new FileReader()
+        reader.readAsDataURL(files[0])
+        reader.onload = e => this.setState({ photo: e.target.result })
+    }
+
+    resetPhoto() {
+        this.setState({ photo: null })
+    }
 
     listenRealTimeMessage(roomName, chatId) {
         pusher.subscribe(`presence-${roomName}${chatId}`, channel => {
