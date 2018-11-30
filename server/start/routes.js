@@ -58,4 +58,9 @@ Route.group(() => {
   Route.get('messages/:roomName/:chatId', 'MessageController.messages');
   Route.post('messages/send', 'MessageController.send')
 
+  // Pusher Auth ---------------------------------------------------------
+
+  Route.post('pusher', 'PusherAuthController.auth')
+  Route.get('pusher/:channel_name', 'PusherAuthController.onlineUsers')
+
 }).prefix('api').middleware(['auth'])

@@ -1,7 +1,7 @@
 .contact_list
 
     .section(@if='this.props.chats.toggleStatus')
-        .contact(@repeat='this.props.chats.chatsList.friends as friend')
+        .contact(@repeat='this.state.room.friends as friend')
             NavLink(to="{this.props.match.path + '/friends/' + this.format(friend.user.username)}")
                 Avatar.photo(name='{friend.user.username}' size='55')
             .preview
@@ -24,7 +24,7 @@
                 i.material-icons(@if='!friend.message') fiber_new
 
     .section(@unless='this.props.chats.toggleStatus')
-        .contact(@repeat='this.props.chats.chatsList.groups as group')
+        .contact(@repeat='this.state.room.groups as group')
             NavLink(to="{this.props.match.path + '/groups/' + this.format(group.name)}")
                 Avatar.photo(name='{group.name}' size='55')
             .preview

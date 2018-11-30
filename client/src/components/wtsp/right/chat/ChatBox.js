@@ -7,6 +7,7 @@ import Avatar from 'react-user-avatar'
 import * as actions from 'actions/'
 
 import event from 'plugins/bus'
+import pusher from 'plugins/pusher'
 
 import Send from 'components/wtsp/right/chat/Send'
 import Messages from 'components/wtsp/right/chat/Messages'
@@ -35,10 +36,29 @@ class ChatBox extends Component {
         })
     }
 
+
+    listenRealTimeMessage(roomName, chatId) {
+        pusher.subscribe(`presence-${roomName}${chatId}`, channel => {
+            channel.bind('newMessage', message => this.pushConversation(message))
+        })
+    }
+
     async getMessages() {
         let roomType = this.props.roomType === 'friends' ? 'friend' : 'group'
-        await this.props.getMessages(`${roomType}_chat`, this.state.activeRoom.id)     
-        this.setState({ allMessages: this.props.room.messagesList }) 
+        await this.props.getMessages(`${roomType}_chat`, this.state.activeRoom.id) 
+        this.setState({ 
+            allMessages: this.props.room.messagesList.reverse().map(message => {
+                return {
+                    id: message.user.id,
+                    name: message.user.username,
+                    avatar: message.user.avatar,
+                    photo: message.photo,
+                    text: message.body,
+                    time: message.created_at
+                }
+            })  
+        }) 
+        this.listenRealTimeMessage(`${roomType}_chat`, this.state.activeRoom.id)
     }
 
     getChatByUserName() {
@@ -73,6 +93,20 @@ class ChatBox extends Component {
     changeUserChat(userChat) {
         this.setState({ userChat }, () => this.getChatByUserName())
     }
+
+    pushConversation(data) {
+        let allMessages = [...this.state.allMessages]
+        allMessages.push({
+            id: data.user.id,
+            name: data.user.username,
+            avatar: data.user.avatar,
+            photo: data.photo,
+            text: data.body,
+            time: data.created_at
+        })
+        this.setState({ allMessages })
+    }
+
 
     render() {
         return template.call(this, { Avatar, Send, Messages })

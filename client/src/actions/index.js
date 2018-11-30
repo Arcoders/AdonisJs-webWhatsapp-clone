@@ -112,7 +112,7 @@ export const getUserById = id => dispatch => {
 export const getMessages = (roomType, roomId) => dispatch => {
     return axios().get(`messages/${roomType}/${roomId}`)
     .then(({data}) => {
-        dispatch({ type: MESSAGES, payload: data.messages.reverse()})
+        dispatch({ type: MESSAGES, payload: data.messages})
     })
     .catch(error => {
         let payload = 'An error has occurred';
@@ -125,11 +125,11 @@ export const getMessages = (roomType, roomId) => dispatch => {
 
 export const sendMessage = (formProps) => dispatch => {
     
-    console.log(formProps)
+   // console.log(formProps)
 
     return axios().post('/messages/send', formProps)
         .then((data) => {
-            console.log(data)
+            // console.log(data)
         })
         .catch(error => {
         })   

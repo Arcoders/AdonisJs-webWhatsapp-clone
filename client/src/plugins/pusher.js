@@ -48,10 +48,33 @@ VuePusher.prototype.getChannels = function () {
     return this.channels;
 };
 
-export default new VuePusher('60efd870de38efff2291', {
+const auth = JSON.parse(localStorage.getItem('auth'))
+
+let _Pusher = new VuePusher('60efd870de38efff2291', {
     cluster: 'eu',
     encrypted: true,
 })
+
+if (auth) {
+
+    _Pusher = new VuePusher('60efd870de38efff2291', {
+        authEndpoint: 'http://127.0.0.1:3333/api/pusher',
+        auth: {
+          headers: {
+            Authorization: `Bearer ${auth ? auth.jwt.token : ''}`,
+          },
+        },
+        cluster: 'eu',
+        encrypted: true,
+    })
+
+} 
+
+export default _Pusher
+
+
+
+
 
 /*
 

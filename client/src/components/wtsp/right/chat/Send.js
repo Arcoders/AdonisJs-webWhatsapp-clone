@@ -9,7 +9,7 @@ import template from 'templates/wtsp/right/chat/send.pug'
 class Send extends Component {
     
     state = {
-        message: null,
+        message: '',
     }
 
     async sendForm(event) {
@@ -20,6 +20,8 @@ class Send extends Component {
             body: this.state.message
         }
         await this.props.sendMessage(body)
+        this.setState({ message: '' })
+
     }
 
     handleMessage(event) {

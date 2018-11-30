@@ -1,7 +1,7 @@
 'use strict'
 
 const Message = use('App/Models/Message')
-
+const Event = use('Event')
 
 class Crud {
 
@@ -13,13 +13,11 @@ class Crud {
 
       const { roomName, chatId, body } = request.all()
 
-      const message = await Message.create({ 
-          body,
-          user_id: user.id,
-          [roomName]: chatId,
-      })
+      const message = await Message.create({ body, user_id: user.id, [roomName]: chatId })
 
       message.user = user
+
+      await Event.fire('message', { message, room: `${roomName}${chatId}`})
 
       return { message }
 

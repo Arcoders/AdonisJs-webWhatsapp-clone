@@ -10,6 +10,8 @@ import template from 'templates/wtsp/right/chat/messages.pug'
 
 class Messages extends Component {
     
+    state = { allMessages: this.props.allMessages }
+
     messageClass(userId) {
         return (this.props.auth.authenticated.user.id === userId)
     }
