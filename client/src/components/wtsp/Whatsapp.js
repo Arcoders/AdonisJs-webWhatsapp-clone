@@ -5,6 +5,7 @@ import Profile from 'components/wtsp/right/profile/Profile'
 import RightSide from 'components/wtsp/right/RightSide'
 import ChatBox from 'components/wtsp/right/chat/ChatBox'
 import LeftSide from 'components/wtsp/left/LeftSide'
+import Groups from 'components/wtsp/right/groups/Groups'
 
 import requireAuth from 'components/auth/RequireAuth'
 
@@ -44,9 +45,11 @@ class Home extends Component {
 
         const friendChat = location.match(/friends/gi)
         const groupChat = location.match(/groups/gi)
+        const org = location.match(/org/gi)
 
         if (friendChat) component = <ChatBox roomType={friendChat[0]} location={location} />
         if (groupChat) component = <ChatBox roomType={groupChat[0]} location={location} />
+        if (org) component = <Groups location={location} />
 
         this.setState({ component })
     }

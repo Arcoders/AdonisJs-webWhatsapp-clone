@@ -1,0 +1,12 @@
+.pagination
+
+    ul.numbers
+        li
+            a.prev(onClick="{() => this.nextPrev(Number(this.props.source.page) - 1)}" className="{this.disablePrev() ? 'disable' : ''}") «
+
+        li(@repeat='this.state.pages as page')
+
+            a(onClick="{() => this.navigate(page)}" className="{ this.props.source.page === page ? 'current' : '' }") { page }
+
+        li
+            a.next(onClick="{() => this.nextPrev(Number(this.props.source.page) + 1)}" className="{this.disableNext() ? 'disable' : ''}") »

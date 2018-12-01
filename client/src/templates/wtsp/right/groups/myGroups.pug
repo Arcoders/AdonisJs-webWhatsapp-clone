@@ -1,0 +1,46 @@
+.chat_groups
+
+    .data
+
+        a
+            i.material-icons arrow_back
+
+        h4 My Groups
+
+            NavLink.green.link_add(to="/wtsp/org/add")
+                i.add.material-icons add 
+
+        hr
+
+    table
+
+        thead
+            tr
+                th Avatar 
+                th Name
+                th Edit
+                th Status
+
+        tbody(@unless='this.state.groups')
+            tr
+                td(colSpan='4') No records found, please
+                    NavLink.green.link_add(to="/wtsp/org/add") Add Groups
+
+        tbody(@if='this.state.groups')
+
+            tr.data(@repeat='this.state.groups.data as group')
+
+                td
+                    Avatar.table_avatar(size="45" name="{group.name}")
+
+                td {group.name}
+
+                td
+                    a
+                        i.material-icons.green mode_edit
+
+                td
+                    button.format(@click="deleteGroup(group._id)")
+                        i.material-icons.red delete
+
+    Paginate(@if='this.state.groups' getGroups='{this.getGroups.bind(this)}' source='{this.state.groups}')

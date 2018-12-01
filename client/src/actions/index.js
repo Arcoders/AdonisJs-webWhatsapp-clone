@@ -135,3 +135,18 @@ export const sendMessage = (formProps) => dispatch => {
         })   
 
 }
+
+export const addGroup = (formProps) => dispatch => {
+    
+    // console.log(formProps)
+ 
+     return axios().post('/groups/create', formProps)
+         .then((data) => {
+             // console.log(data)
+         })
+         .catch(error => {
+         })   
+ 
+ }
+
+

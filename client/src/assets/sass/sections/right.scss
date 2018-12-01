@@ -335,10 +335,13 @@
   padding: 15px 40px;
   overflow-y: hidden;
   .avatar {
-    margin-top: 20px;
+    margin-top: 30px;
+    color: #ffffff;
   }
   .avatar_shadow {
     box-shadow: 0 0 0 5px #EEEEEE;
+    width: 55px;
+    border-radius: 50%;
   }
   h4 {
     margin: 25px 0;
@@ -393,6 +396,7 @@
     margin: auto;
     max-height: 40px;
     max-width: 40px;
+    color: white;
   }
   .green {
     color: #009688;

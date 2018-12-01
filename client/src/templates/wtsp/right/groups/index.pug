@@ -1,0 +1,31 @@
+.manage_groups
+
+    .head
+
+        h1
+            i.material-icons group_add
+
+        .info
+            p Groups
+            p.name You can create public chat rooms for all users...
+
+
+    .groups_box
+
+        .content
+
+            .groups(@if='this.props.location.pathname === "/wtsp/org"')
+
+                .group
+                    NavLink(to="{this.props.location.pathname + '/add'}") Add Group
+
+                .group
+                    NavLink(to="{this.props.location.pathname + '/manage'}") My Groups
+
+            .chat_groups(@if='this.props.location.pathname === "/wtsp/org/add"')
+
+                AddGroup
+
+            div(@if='this.props.location.pathname === "/wtsp/org/manage"')
+
+                MyGroups
