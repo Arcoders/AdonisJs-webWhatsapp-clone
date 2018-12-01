@@ -1,7 +1,9 @@
 import { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
+
+import axios from 'plugins/axios'
 
 import * as actions from 'actions/'
 
@@ -10,19 +12,45 @@ import Select from 'react-select'
 
 
 
-import template from 'templates/wtsp/right/groups/addGroup.pug'
+import template from 'templates/wtsp/right/groups/editGroup.pug'
 
-class AddGroup extends Component {
+class EditGroup extends Component {
     
     state = {
         selectedOption: null,
         friends: [],
         photo: null,
-        name: ''
+        name: '',
+        groupId: this.props.location.pathname.split('/').pop()
     }
 
     componentDidMount() {
-        this.setFriends()
+        this.getGroup()
+    }
+
+    getGroup() {
+        return axios().get(`groups/get/${this.state.groupId}`)
+        .then(({data}) => {
+            let selectedOption = data.group.users.map(user => {
+                return {
+                    label: user.username,
+                    value: user.id
+                }
+            })
+            selectedOption = selectedOption.filter(ops => this.props.auth.authenticated.user.id !== ops.value)
+            let friends = data.friends.map(friend => {
+                return {
+                    label: friend.username,
+                    value: friend.id
+                }
+            })
+            let name = data.group.name
+            this.setState({ selectedOption, name, friends })
+        })
+        .catch(error => {
+            this.props.history.push('/wtsp')
+        })   
+
     }
 
     setFriends(obj = this.props.chats.chatsList) {
@@ -44,8 +72,7 @@ class AddGroup extends Component {
             usersId: (this.state.selectedOption) ? this.state.selectedOption.map(ops => ops.value) : [],
         }
 
-        await this.props.addGroup(body)
-        this.setState({ name: '', selectedOption: null, photo: null })
+        await this.props.editGroup(this.state.groupId, body)
 
     }
 
@@ -80,6 +107,6 @@ class AddGroup extends Component {
 
 const mapStateToProps = state => state
 
-export default compose(connect(mapStateToProps, actions))(AddGroup)
+export default compose(connect(mapStateToProps, actions))(withRouter(EditGroup))
 
 

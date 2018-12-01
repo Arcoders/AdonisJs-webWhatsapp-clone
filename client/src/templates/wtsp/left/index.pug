@@ -2,7 +2,7 @@
 
     .menu
         NavLink(to="{this.props.match.path + '/profile'}")
-            Avatar.avatar(name='{this.props.auth.authenticated.user.username}' size='45' round='{true}')
+            Avatar.avatar(name='{this.props.auth.authenticated.user.username}' size='45' src='{this.props.auth.authenticated.user.avatar}')
 
         NavLink(to="{this.props.match.path + '/profile'}") {this.props.auth.authenticated.user.username}
 

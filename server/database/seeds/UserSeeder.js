@@ -20,16 +20,19 @@ class UserSeeder {
     const ismael = await Factory.model('App/Models/User').create({
       email: 'Arcoders@gmail.com',
       username: 'Ismael Haytam',
+      withoutAvatar: true,
     })
 
     const marta = await Factory.model('App/Models/User').create({
       email: 'Marta@gmail.com',
       username: 'Marta Lopez',
+      withoutAvatar: true,
     })
 
     const victor = await Factory.model('App/Models/User').create({
       email: 'Victor@gmail.com',
       username: 'Victor Crack',
+      withoutAvatar: true,
     })
 
     
@@ -50,6 +53,10 @@ class UserSeeder {
       requested: marta.id,
       status: 0
     })
+
+    // ..................................................................
+
+    await Factory.model('App/Models/User').createMany(10)
 
     // ..................................................................
 
@@ -82,6 +89,7 @@ class UserSeeder {
     const arcoders = await Factory.model('App/Models/Group').create({
       name: 'Arcoders',
       user_id: ismael.id,
+      avatar: null
     })
 
     await arcoders.users().attach([ismael.id, marta.id])
@@ -94,6 +102,7 @@ class UserSeeder {
     const fustal = await Factory.model('App/Models/Group').create({
       name: 'Fustal Girona',
       user_id: ismael.id,
+      avatar: null
     })
 
     await fustal.users().attach([ismael.id, marta.id, victor.id])
@@ -101,6 +110,7 @@ class UserSeeder {
     const javascript = await Factory.model('App/Models/Group').create({
       name: 'Javascript',
       user_id: ismael.id,
+      avatar: null
     })
 
     await javascript.users().attach([ismael.id, marta.id, victor.id])
@@ -108,6 +118,7 @@ class UserSeeder {
     const tecno = await Factory.model('App/Models/Group').create({
       name: 'Tecnología',
       user_id: marta.id,
+      avatar: null
     })
 
     await tecno.users().attach([marta.id, ismael.id])

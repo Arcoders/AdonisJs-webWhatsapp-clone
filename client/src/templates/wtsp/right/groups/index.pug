@@ -26,6 +26,10 @@
 
                 AddGroup
 
+            .chat_groups(@if='this.props.location.pathname.match(/edit-group/gi)')
+
+                EditGroup
+
             div(@if='this.props.location.pathname === "/wtsp/org/manage"')
 
                 MyGroups

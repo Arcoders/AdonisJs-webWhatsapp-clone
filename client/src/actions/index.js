@@ -150,3 +150,16 @@ export const addGroup = (formProps) => dispatch => {
  }
 
 
+ export const editGroup = (id, formProps) => dispatch => {
+    
+    // console.log(formProps)
+ 
+     return axios().patch(`/groups/${id}`, formProps)
+         .then((data) => {
+             // console.log(data)
+         })
+         .catch(error => {
+         })   
+ 
+ }
+

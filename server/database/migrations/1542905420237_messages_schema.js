@@ -11,6 +11,7 @@ class MessagesSchema extends Schema {
       table.integer('group_chat').nullable()
       table.integer('friend_chat').nullable()
       table.string('body').notNullable()
+      table.string('photo').nullable()
       table.timestamps()
     })
   }

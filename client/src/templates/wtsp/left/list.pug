@@ -3,7 +3,7 @@
     .section(@if='this.props.chats.toggleStatus')
         .contact(@repeat='this.state.room.friends as friend')
             NavLink(to="{this.props.match.path + '/friends/' + this.format(friend.user.username)}")
-                Avatar.photo(name='{friend.user.username}' size='55')
+                Avatar.photo(name='{friend.user.username}' src='{friend.user.avatar}' size='55')
             .preview
                 .text
                     h5 
@@ -26,7 +26,7 @@
     .section(@unless='this.props.chats.toggleStatus')
         .contact(@repeat='this.state.room.groups as group')
             NavLink(to="{this.props.match.path + '/groups/' + this.format(group.name)}")
-                Avatar.photo(name='{group.name}' size='55')
+                Avatar.photo(name='{group.name}' src='{group.avatar}' size='55')
             .preview
                 .text
                     h5 
@@ -35,7 +35,7 @@
                         span(@if='group.message')
                             span(@if='group.message.body && group.message.photo')
                                 i.material-icons.photo photo
-                                | {friend.message.body }
+                                | {group.message.body }
                             span(@if='group.message.body') { group.message.body }
                             span(@if='group.message.photo')
                                 i.material-icons.photo photo

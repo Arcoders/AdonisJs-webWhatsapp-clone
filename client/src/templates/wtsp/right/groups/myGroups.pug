@@ -2,7 +2,7 @@
 
     .data
 
-        a
+        NavLink.green.link_add(to="/wtsp/org")
             i.material-icons arrow_back
 
         h4 My Groups
@@ -36,7 +36,7 @@
                 td {group.name}
 
                 td
-                    a
+                    NavLink(to="{`/wtsp/org/edit-group/${group.id}`}") 
                         i.material-icons.green mode_edit
 
                 td

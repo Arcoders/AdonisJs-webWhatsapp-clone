@@ -1,6 +1,6 @@
 section 
     .list(@repeat='this.props.randomUsers as user')
-        Avatar.image(name='{user.username}' size='60')
+        Avatar.image(name='{user.username}' src='{user.avatar}' size='60')
         button.name(onClick='{() => this.props.getUserById(user.id)}') { user.username }
     .list(v-if="records")
         button.random(onClick='{this.listUsers.bind(this)}')

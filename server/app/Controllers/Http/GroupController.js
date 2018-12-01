@@ -12,6 +12,14 @@ class GroupController {
 
     }
 
+    async group ({ auth, group, response }) {
+
+        const groupInfo = await Group.getGroup(auth, group)
+
+        response.json(groupInfo)
+
+    }
+
     async create ({ request, auth, response }) {
 
         const newGroup = await Group.add(request, auth)

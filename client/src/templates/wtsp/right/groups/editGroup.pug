@@ -7,7 +7,7 @@ div
 
             Avatar.avatar(name="{(this.state.name) ? this.state.name : '★'}" className="{this.state.photo || this.state.name ? 'avatar_shadow' : ''}" src="{this.state.photo}" size="55")
 
-            h4  Add Group
+            h4  Edit Group
 
             hr
 
@@ -27,6 +27,6 @@ div
 
                 input.input_name(name="name" value="{this.state.name}" type="text"  onChange='{this.handleNameChange.bind(this)}' placeholder="Group name...")
 
-                button.button_send(type='button' desabled onClick='{this.sendForm.bind(this)}') Create
+                button.button_send(type='button' desabled onClick='{this.sendForm.bind(this)}') Save
 
             Select(isMulti='{true}' value='{this.state.selectedOption}' onChange='{this.handleChange.bind(this)}' options='{this.state.friends}')

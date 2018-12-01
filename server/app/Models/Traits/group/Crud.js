@@ -1,8 +1,10 @@
 'use strict'
 
 const Group = use('App/Models/Group')
-const Authorization = use('App/Services/Authorization')
+const User = use('App/Models/User')
+const Event = use('Event')
 
+const Authorization = use('App/Services/Authorization')
 
 class Crud {
 
@@ -28,6 +30,8 @@ class Crud {
 
       group.users = await group.users().attach(this.friendsId(usersId, user.id))
 
+      this.notifyUsers(usersId)
+
       return {
         status: 'Group created successfully', 
         group 
@@ -47,11 +51,17 @@ class Crud {
 
       await group.save()
       
-      group.users = await group.users().sync(this.friendsId(usersId, user.id))
+      const friendsId = this.friendsId(usersId, user.id)
+      const old = (await group.users().fetch()).toJSON().map(user => user.id)
+
+      group.users = await group.users().sync(friendsId)
+
+      this.notifyEditedUsers(old, usersId)
 
       return {
         status: 'Group updated successfully', 
-        group
+        group,
+        old
       }
 
     }
@@ -65,9 +75,25 @@ class Crud {
       await group.users().detach()
       await group.delete()
 
+      this.notifyUsers(usersId)
+
       return { 
         status: 'Group deleted successfully'
       }
+
+    }
+
+    Model.getGroup = async (auth, group) => {
+
+      const user = await auth.getUser()
+
+      Authorization.check(group.user_id, user)
+
+      group.users = await group.users().fetch()
+
+      const friends = await User.friends(user.id)
+
+      return { group, friends }
 
     }
 
@@ -80,6 +106,18 @@ class Crud {
     usersId.push(userId)
 
     return [...new Set(usersId)]
+  }
+
+  async notifyEditedUsers(old, news) {
+
+    const allUsers = old.filter(x => !news.includes(x)).concat(news)
+
+    for (const userId of allUsers) await Event.fire('group', userId)
+
+}
+
+  async notifyUsers(usersId) {
+    for (const userId of usersId) await Event.fire('group', userId)
   }
 
 }

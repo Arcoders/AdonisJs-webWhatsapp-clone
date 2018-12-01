@@ -87,7 +87,8 @@ class ChatBox extends Component {
             })
             let activeRoom = {
                 id: room.id,
-                name: room.user ?  room.user.username : room.name
+                name: room.user ?  room.user.username : room.name,
+                avatar: room.user ?  room.user.avatar : room.avatar
             }
             this.setState({ activeRoom }, () => {
                 this.getMessages()

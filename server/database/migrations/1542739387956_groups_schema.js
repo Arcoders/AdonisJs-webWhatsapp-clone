@@ -9,6 +9,7 @@ class GroupsSchema extends Schema {
       table.increments()
       table.string('name').notNullable()
       table.integer('user_id').notNullable()
+      table.string('avatar').nullable()
       table.timestamps()
     })
   }

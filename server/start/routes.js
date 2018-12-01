@@ -52,6 +52,7 @@ Route.group(() => {
   Route.patch('groups/:group', 'GroupController.update').validator('ManageGroup').bind('Group')
   Route.delete('groups/:group', 'GroupController.destroy').bind('Group')  
   Route.get('groups', 'GroupController.groups')
+  Route.get('groups/get/:group', 'GroupController.group').bind('Group')
 
   // Messages ---------------------------------------------------------
 
