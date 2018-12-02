@@ -5,6 +5,8 @@ import { withRouter, NavLink } from 'react-router-dom'
 import * as actions from 'actions/'
 
 import pusher from 'plugins/pusher'
+import event from 'plugins/bus'
+
 
 import Avatar from 'react-user-avatar'
 import arraySort from 'array-sort'
@@ -30,6 +32,17 @@ class List extends Component {
                 this.getChats()
                 this.props.toggleChatTo(data)
             })
+        })
+
+        event.$on('filter', (data) => {
+
+            let room = {
+                friends: data.friends,
+                groups: data.groups
+            }
+
+            this.setState({ room })
+
         })
 
     }

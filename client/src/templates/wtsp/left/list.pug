@@ -24,6 +24,9 @@
                     Moment(interval='{60000}' durationFromNow='{true}') {friend.message.created_at}
                 i.material-icons(@if='!friend.message') fiber_new
 
+        .contact(@unless='this.state.room.friends.length')
+            p.middle Friend not found
+
     .section(@unless='this.props.chats.toggleStatus')
         .contact(@repeat='this.state.room.groups as group')
             NavLink(to="{'/wtsp/chats/groups/' + this.format(group.name)}")
@@ -47,6 +50,9 @@
                 p(@if='group.message')
                     Moment(interval='{60000}' durationFromNow='{true}') {group.message.created_at}
                 i.material-icons(@if='!group.message') fiber_new
+
+        .contact(@unless='this.state.room.groups.length')
+            p.middle Group not found
             
 
         

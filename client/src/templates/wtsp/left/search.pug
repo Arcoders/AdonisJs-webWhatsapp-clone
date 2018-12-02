@@ -1,4 +1,4 @@
 .search_container
     .search
         i.material-icons search
-        input(type='text' placeholder='Search...')
+        input(type='text' placeholder='Search...' onChange='{this.handleChange.bind(this)}' onKeyUp='{this.filter.bind(this)}')

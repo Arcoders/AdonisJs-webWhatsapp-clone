@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 import Welcome from 'components/wtsp/right/Welcome'
 import Profile from 'components/wtsp/right/profile/Profile'
@@ -27,13 +27,16 @@ class Home extends Component {
                 <div className='right'>
                     <RightSide>
 
-                        <Route exact path='/wtsp' component={Welcome}/>
-                        <Route path='/wtsp/profile/:profileId?' component={Profile}/>
-                        <Route path='/wtsp/chats/:roomType/:chatName' component={ChatBox}/>
-                        <Route exact path='/wtsp/groups' component={Groups}/>
-                        <Route path='/wtsp/groups/add' component={AddGroup}/>
-                        <Route path='/wtsp/groups/edit/:groupId' component={EditGroup}/>
-                        <Route path='/wtsp/groups/all' component={MyGroups}/>
+                        <Switch>
+                            <Route exact path='/wtsp' component={Welcome}/>
+                            <Route path='/wtsp/profile/:profileId?' component={Profile}/>
+                            <Route path='/wtsp/chats/:roomType/:chatName' component={ChatBox}/>
+                            <Route exact path='/wtsp/groups' component={Groups}/>
+                            <Route path='/wtsp/groups/add' component={AddGroup}/>
+                            <Route path='/wtsp/groups/edit/:groupId' component={EditGroup}/>
+                            <Route path='/wtsp/groups/all' component={MyGroups}/>
+                            <Route exact path='/wtsp/*' component={Welcome}/>
+                        </Switch>
 
                     </RightSide>
                 </div>

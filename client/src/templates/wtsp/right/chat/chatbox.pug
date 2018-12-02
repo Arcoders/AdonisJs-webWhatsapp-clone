@@ -9,11 +9,11 @@ div
 
                 p {this.state.activeRoom.name}
                 
-                p.online(v-if="onlineUsers.length > 1")
-                    span(v-for="onlineUser in onlineUsers" v-if="user._id != onlineUser.id") Victor el salvaje
+                p.online(@if='this.state.onlineUsers')
+                    span(@repeat='this.state.onlineUsers as user') { user }
                         span.state.green &#8226; 
 
-                p.online(v-else) Offline
+                p.online(@unless='this.state.onlineUsers.length') Offline
                     span.state.red &#8226;
 
         .chat_box

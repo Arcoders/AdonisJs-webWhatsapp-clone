@@ -24,7 +24,8 @@ class ChatBox extends Component {
         activeRoom: null,
         allMessages: [],
         modal: false,
-        photo: null
+        photo: null,
+        onlineUsers: []
      }
 
      
@@ -38,6 +39,15 @@ class ChatBox extends Component {
             this.getChatByUserName()
         })
     }
+
+
+    pushOnlineUsers(members) {
+        let onlineUsers = this.state.onlineUsers
+        members.each(member => {onlineUsers.push(member.info.username)})
+        onlineUsers = [...(new Set(onlineUsers))]
+        this.setState({ onlineUsers }, () => console.log(this.state.onlineUsers))
+    }
+
 
     toggleModal() {
         this.setState({ modal: !this.state.modal })
@@ -58,6 +68,9 @@ class ChatBox extends Component {
     listenRealTimeMessage(roomName, chatId) {
         pusher.subscribe(`presence-${roomName}${chatId}`, channel => {
             channel.bind('newMessage', message => this.pushConversation(message))
+            channel.bind('pusher:subscription_succeeded', () => this.pushOnlineUsers(channel.members))
+            channel.bind('pusher:member_added', () => this.pushOnlineUsers(channel.members))
+            channel.bind('pusher:member_removed', () => this.pushOnlineUsers(channel.members))
         })
     }
 
@@ -91,8 +104,11 @@ class ChatBox extends Component {
                 name: room.user ?  room.user.username : room.name,
                 avatar: room.user ?  room.user.avatar : room.avatar
             }
-            this.setState({ activeRoom }, () => {
+            this.setState({ activeRoom, onlineUsers: [] }, () => {
                 this.getMessages()
+                    let roomName = this.state.roomType === 'friends' ? 'friend' : 'group'
+                    this.listenRealTimeMessage(roomName, this.state.activeRoom.id)
+        
             })
         }
 
@@ -104,7 +120,9 @@ class ChatBox extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.location !== nextProps.location) this.changeUserChat(nextProps)
+        if (this.props.location !== nextProps.location) {
+            this.changeUserChat(nextProps)
+        }
     }
 
     changeUserChat(nextProps) {
