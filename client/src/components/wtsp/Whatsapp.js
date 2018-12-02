@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { Route } from 'react-router-dom'
+
 import Welcome from 'components/wtsp/right/Welcome'
 import Profile from 'components/wtsp/right/profile/Profile'
 import RightSide from 'components/wtsp/right/RightSide'
@@ -7,52 +9,14 @@ import ChatBox from 'components/wtsp/right/chat/ChatBox'
 import LeftSide from 'components/wtsp/left/LeftSide'
 import Groups from 'components/wtsp/right/groups/Groups'
 
+import AddGroup from 'components/wtsp/right/groups/AddGroup'
+import EditGroup from 'components/wtsp/right/groups/EditGroup'
+import MyGroups from 'components/wtsp/right/groups/MyGroups'
+
 import requireAuth from 'components/auth/RequireAuth'
 
 
 class Home extends Component {
-
-    state = { component: (<Welcome />) }
-
-    componentDidMount() {
-        this.dinamicComponents()
-    }
-
-    dinamicComponents() {
-        this.actualRoute()
-        this.props.history.listen(location => this.actualRoute(location.pathname))
-    }
-
-    actualRoute(location = this.props.history.location.pathname) {
-        
-        let component = this.state.component
-
-        const profileId = location.split('/').pop()
-
-        if (isNaN(profileId)) {
-            
-            switch(location) {
-                case '/wtsp/profile':
-                    component = <Profile />
-                    break
-                default:
-                    component = <Welcome />
-            }
-
-        } else {
-            component = <Profile profileId={profileId}/>
-        }
-
-        const friendChat = location.match(/friends/gi)
-        const groupChat = location.match(/groups/gi)
-        const org = location.match(/org/gi)
-
-        if (friendChat) component = <ChatBox roomType={friendChat[0]} location={location} />
-        if (groupChat) component = <ChatBox roomType={groupChat[0]} location={location} />
-        if (org) component = <Groups location={location} />
-
-        this.setState({ component })
-    }
 
     render () {
         return (
@@ -60,7 +24,19 @@ class Home extends Component {
     
                 <div className='left'><LeftSide /></div>
     
-                <div className='right'><RightSide>{this.state.component}</RightSide></div>
+                <div className='right'>
+                    <RightSide>
+
+                        <Route exact path='/wtsp' component={Welcome}/>
+                        <Route path='/wtsp/profile/:profileId?' component={Profile}/>
+                        <Route path='/wtsp/chats/:roomType/:chatName' component={ChatBox}/>
+                        <Route exact path='/wtsp/groups' component={Groups}/>
+                        <Route path='/wtsp/groups/add' component={AddGroup}/>
+                        <Route path='/wtsp/groups/edit/:groupId' component={EditGroup}/>
+                        <Route path='/wtsp/groups/all' component={MyGroups}/>
+
+                    </RightSide>
+                </div>
     
             </div>
         )

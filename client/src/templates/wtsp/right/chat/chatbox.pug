@@ -34,4 +34,4 @@ div
                         a(onClick="{this.resetPhoto.bind(this)}")
                             i.material-icons clear
             
-        Send(chatId='{this.state.activeRoom.id}' modal='{this.state.modal}' toggleModal='{this.toggleModal.bind(this)}' roomType="{this.props.roomType === 'friends' ? 'friend' : 'group'}")
+        Send(chatId='{this.state.activeRoom.id}' modal='{this.state.modal}' toggleModal='{this.toggleModal.bind(this)}' roomType="{this.state.roomType === 'friends' ? 'friend' : 'group'}")

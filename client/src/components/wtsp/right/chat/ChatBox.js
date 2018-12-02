@@ -18,7 +18,8 @@ class ChatBox extends Component {
     
     state = { 
         showChat: false,
-        userChat:  this.props.location.split('/').pop(),
+        chatName:  this.props.match.params.chatName,
+        roomType: this.props.match.params.roomType,
         rooms: this.props.chats.chatsList,
         activeRoom: null,
         allMessages: [],
@@ -61,7 +62,7 @@ class ChatBox extends Component {
     }
 
     async getMessages() {
-        let roomType = this.props.roomType === 'friends' ? 'friend' : 'group'
+        let roomType = this.state.roomType === 'friends' ? 'friend' : 'group'
         await this.props.getMessages(`${roomType}_chat`, this.state.activeRoom.id) 
         this.setState({ 
             allMessages: this.props.room.messagesList.reverse().map(message => {
@@ -81,7 +82,7 @@ class ChatBox extends Component {
     getChatByUserName() {
 
         if (Object.keys(this.state.rooms).length) {
-            let room = this.props.chats.chatsList[this.props.roomType].find(room => {
+            let room = this.props.chats.chatsList[this.state.roomType].find(room => {
                 const roomName = (room.user) ? room.user.username : room.name
                 return roomName === this.friendName()
             })
@@ -98,18 +99,19 @@ class ChatBox extends Component {
     }
 
     friendName() {
-        let userChat = this.state.userChat
-        return userChat.replace('_', ' ')
+        let chatName = this.state.chatName
+        return chatName.replace('_', ' ')
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.location !== nextProps.location) {
-            this.changeUserChat(nextProps.location.split('/').pop())
-        }
+        if (this.props.location !== nextProps.location) this.changeUserChat(nextProps)
     }
 
-    changeUserChat(userChat) {
-        this.setState({ userChat }, () => this.getChatByUserName())
+    changeUserChat(nextProps) {
+        this.setState({ 
+            chatName: nextProps.match.params.chatName,
+            roomType: nextProps.match.params.roomType
+         }, () => this.getChatByUserName())
     }
 
     pushConversation(data) {

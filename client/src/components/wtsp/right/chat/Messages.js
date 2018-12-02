@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import * as actions from 'actions/'
 
 import Avatar from 'react-user-avatar'
+import Moment from 'react-moment'
 
 import template from 'templates/wtsp/right/chat/messages.pug'
 
@@ -17,7 +18,7 @@ class Messages extends Component {
     }
 
     render() {
-        return template.call(this, { Avatar })
+        return template.call(this, { Avatar, Moment })
     }
 
 }

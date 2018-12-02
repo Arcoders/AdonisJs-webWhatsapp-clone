@@ -14,22 +14,10 @@
 
         .content
 
-            .groups(@if='this.props.location.pathname === "/wtsp/org"')
+            .groups
 
                 .group
-                    NavLink(to="{this.props.location.pathname + '/add'}") Add Group
+                    NavLink(to="/wtsp/groups/add") Add Group
 
                 .group
-                    NavLink(to="{this.props.location.pathname + '/manage'}") My Groups
-
-            .chat_groups(@if='this.props.location.pathname === "/wtsp/org/add"')
-
-                AddGroup
-
-            .chat_groups(@if='this.props.location.pathname.match(/edit-group/gi)')
-
-                EditGroup
-
-            div(@if='this.props.location.pathname === "/wtsp/org/manage"')
-
-                MyGroups
+                    NavLink(to="/wtsp/groups/all") My Groups

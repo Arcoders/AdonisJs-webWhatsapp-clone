@@ -8,6 +8,7 @@ import pusher from 'plugins/pusher'
 
 import Avatar from 'react-user-avatar'
 import arraySort from 'array-sort'
+import Moment from 'react-moment'
 
 import template from 'templates/wtsp/left/list.pug'
 
@@ -75,7 +76,7 @@ class List extends Component {
     }
 
     render() {
-        return template.call(this, { Avatar, NavLink })
+        return template.call(this, { Avatar, NavLink, Moment })
     }
 
 }

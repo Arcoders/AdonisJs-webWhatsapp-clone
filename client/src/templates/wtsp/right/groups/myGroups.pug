@@ -1,46 +1,62 @@
-.chat_groups
+.manage_groups
 
-    .data
+    .head
 
-        NavLink.green.link_add(to="/wtsp/org")
-            i.material-icons arrow_back
+        h1
+            i.material-icons group_add
 
-        h4 My Groups
+        .info
+            p Groups
+            p.name You can create public chat rooms for all users...
 
-            NavLink.green.link_add(to="/wtsp/org/add")
-                i.add.material-icons add 
 
-        hr
+    .groups_box
 
-    table
+        .content
 
-        thead
-            tr
-                th Avatar 
-                th Name
-                th Edit
-                th Status
+            .chat_groups
 
-        tbody(@unless='this.state.groups')
-            tr
-                td(colSpan='4') No records found, please
-                    NavLink.green.link_add(to="/wtsp/org/add") Add Groups
+                .data
 
-        tbody(@if='this.state.groups')
+                    NavLink.green.link_add(to="/wtsp/groups")
+                        i.material-icons arrow_back
 
-            tr.data(@repeat='this.state.groups.data as group')
+                    h4 My Groups
 
-                td
-                    Avatar.table_avatar(size="45" name="{group.name}")
+                        NavLink.green.link_add(to="/wtsp/groups/add")
+                            i.add.material-icons add 
 
-                td {group.name}
+                    hr
 
-                td
-                    NavLink(to="{`/wtsp/org/edit-group/${group.id}`}") 
-                        i.material-icons.green mode_edit
+                table
 
-                td
-                    button.format(@click="deleteGroup(group._id)")
-                        i.material-icons.red delete
+                    thead
+                        tr
+                            th Avatar 
+                            th Name
+                            th Edit
+                            th Status
 
-    Paginate(@if='this.state.groups' getGroups='{this.getGroups.bind(this)}' source='{this.state.groups}')
+                    tbody(@unless='this.state.groups')
+                        tr
+                            td(colSpan='4') No records found, please
+                                NavLink.green.link_add(to="/wtsp/groups/add") Add Groups
+
+                    tbody(@if='this.state.groups')
+
+                        tr.data(@repeat='this.state.groups.data as group')
+
+                            td
+                                Avatar.table_avatar(size="45" src="{group.avatar}" name="{group.name}")
+
+                            td {group.name}
+
+                            td
+                                NavLink(to="{`/wtsp/groups/edit/${group.id}`}") 
+                                    i.material-icons.green mode_edit
+
+                            td
+                                button.format(@click="deleteGroup(group._id)")
+                                    i.material-icons.red delete
+
+                Paginate(@if='this.state.groups' getGroups='{this.getGroups.bind(this)}' source='{this.state.groups}')

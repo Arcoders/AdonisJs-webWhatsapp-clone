@@ -63,8 +63,8 @@ export const getChats = () => dispatch => {
             event.$emit('show_chat', true)
         })
         .catch(error => {
-            let payload = 'An error has occurred';
-            if (error.response.status === 401) payload = 'Invalid Token'
+            let payload = 'An error has occurred'
+            if (error.response && error.response.status === 401) payload = 'Invalid Token'
             dispatch({ type: CHATS_ERROR, payload })
         })   
 

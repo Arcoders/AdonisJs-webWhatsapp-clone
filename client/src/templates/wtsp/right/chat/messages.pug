@@ -4,13 +4,14 @@
         
             div(className='{this.messageClass(message.id) ? "user_mouth" : "friend_mouth"}')
 
-                Avatar.avatar(name='{message.name}' size='45' className="{this.messageClass(message.id) ? 'user_img' : 'friend_img'}")
+                Avatar.avatar(name='{message.name}' src='{message.avatar}' size='45' className="{this.messageClass(message.id) ? 'user_img' : 'friend_img'}")
 
             .content
                 div(@if='message.photo')
                     img(src='{message.photo}')
                 p  { message.text }
 
-            .time(@unless='message.error') { message.time }
+            .time(@unless='message.error') 
+                Moment(fromNow='{true}') { message.time }
             .time(@if='message.error')
                 i.material-icons.error error

@@ -21,6 +21,7 @@ class Profile extends Component {
      }
 
     componentDidMount() {
+
         this.getProfileById()
         event.$on('new_user_profile', user => this.setState({ user }))
         event.$on('preview_avatar', avatarSrc => {
@@ -43,7 +44,7 @@ class Profile extends Component {
     }
 
     getProfileById() {
-        if (this.props.profileId) this.props.getUserById(this.props.profileId)
+        if (this.props.match.params.profileId) this.props.getUserById(this.props.match.params.profileId)
     }
 
     render() {

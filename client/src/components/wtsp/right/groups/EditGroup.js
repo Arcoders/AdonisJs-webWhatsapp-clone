@@ -21,7 +21,7 @@ class EditGroup extends Component {
         friends: [],
         photo: null,
         name: '',
-        groupId: this.props.location.pathname.split('/').pop()
+        groupId: this.props.match.params.groupId
     }
 
     componentDidMount() {

@@ -1,32 +1,48 @@
-div
+.manage_groups
 
-        .data
+    .head
 
-            NavLink(to="{'/wtsp/org'}")
-                i.material-icons arrow_back
+        h1
+            i.material-icons group_add
 
-            Avatar.avatar(name="{(this.state.name) ? this.state.name : '★'}" className="{this.state.photo || this.state.name ? 'avatar_shadow' : ''}" src="{this.state.photo}" size="55")
-
-            h4  Add Group
-
-            hr
-
-        form(encType="multipart/form-data")
-            .group_input
+        .info
+            p Groups
+            p.name You can create public chat rooms for all users...
 
 
-                label.upload_avatar
+    .groups_box
 
-                    button.button_upload(@unless='this.state.photo' type='button')
-                        i.material-icons backup
+        .content
 
-                    button.button_upload(@if='this.state.photo' type='button' onClick='{this.clearPhoto.bind(this)}')
-                        i.material-icons clear
+            .chat_groups
 
-                    input(@unless='this.state.photo' type="file" name="avatar" onChange='{this.handleFileChange.bind(this)}')
+                .data
 
-                input.input_name(name="name" value="{this.state.name}" type="text"  onChange='{this.handleNameChange.bind(this)}' placeholder="Group name...")
+                    NavLink(to="/wtsp/groups")
+                        i.material-icons arrow_back
 
-                button.button_send(type='button' desabled onClick='{this.sendForm.bind(this)}') Create
+                    Avatar.avatar(name="{(this.state.name) ? this.state.name : '★'}" className="{this.state.photo || this.state.name ? 'avatar_shadow' : ''}" src="{this.state.photo}" size="55")
 
-            Select(isMulti='{true}' value='{this.state.selectedOption}' onChange='{this.handleChange.bind(this)}' options='{this.state.friends}')
+                    h4  Add Group
+
+                    hr
+
+                form(encType="multipart/form-data")
+                    .group_input
+
+
+                        label.upload_avatar
+
+                            button.button_upload(@unless='this.state.photo' type='button')
+                                i.material-icons backup
+
+                            button.button_upload(@if='this.state.photo' type='button' onClick='{this.clearPhoto.bind(this)}')
+                                i.material-icons clear
+
+                            input(@unless='this.state.photo' type="file" name="avatar" onChange='{this.handleFileChange.bind(this)}')
+
+                        input.input_name(name="name" value="{this.state.name}" type="text"  onChange='{this.handleNameChange.bind(this)}' placeholder="Group name...")
+
+                        button.button_send(type='button' desabled onClick='{this.sendForm.bind(this)}') Create
+
+                    Select(isMulti='{true}' value='{this.state.selectedOption}' onChange='{this.handleChange.bind(this)}' options='{this.state.friends}')
