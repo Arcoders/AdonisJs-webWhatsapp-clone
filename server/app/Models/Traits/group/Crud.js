@@ -30,9 +30,11 @@ class Crud {
 
       const group = await Group.create({ name, user_id: user.id, avatar })
 
-      group.users = await group.users().attach(this.friendsId(usersId, user.id))
+      const friends = this.friendsId(usersId, user.id)
 
-      this.notifyUsers(usersId)
+      group.users = await group.users().attach(friends)
+
+      this.notifyUsers(friends)
 
       return { status: 'Group created successfully', group }
 
