@@ -14,7 +14,7 @@
                                 i.material-icons.photo photo
                                 | {friend.message.body }
                             span(@if='friend.message.body') { friend.message.body }
-                            span(@if='friend.message.photo')
+                            span(@if='friend.message.photo && !friend.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared
                         span(@if='!friend.message') Empty chat...
@@ -41,7 +41,7 @@
                                 i.material-icons.photo photo
                                 | {group.message.body }
                             span(@if='group.message.body') { group.message.body }
-                            span(@if='group.message.photo')
+                            span(@if='group.message.photo && !group.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared
                         span(@if='!group.message') Empty chat...

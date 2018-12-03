@@ -14,12 +14,13 @@ class Send extends Component {
 
     async sendForm(event) {
         event.preventDefault()
-        let body = {
-            roomName: `${this.props.roomType}_chat`,
-            chatId: this.props.chatId,
-            body: this.state.message
-        }
-        await this.props.sendMessage(body)
+
+        let formData = new FormData()
+        formData.append('roomName', `${this.props.roomType}_chat`)
+        formData.append('chatId', this.props.chatId)
+        formData.append('body', this.state.message)
+        if (this.props.messagePhoto) formData.append('messagePhoto', this.props.messagePhoto)
+        await this.props.sendMessage(formData)
         this.setState({ message: '' })
 
     }

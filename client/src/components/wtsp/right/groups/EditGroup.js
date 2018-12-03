@@ -47,7 +47,7 @@ class EditGroup extends Component {
             let name = data.group.name
             this.setState({ selectedOption, name, friends })
         })
-        .catch(error => {
+        .catch(() => {
             this.props.history.push('/wtsp')
         })   
 

@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import Welcome from 'components/wtsp/right/Welcome'
 import Profile from 'components/wtsp/right/profile/Profile'
 import RightSide from 'components/wtsp/right/RightSide'
-import ChatBox from 'components/wtsp/right/chat/ChatBox'
+import Box from 'components/wtsp/right/chat/Box'
 import LeftSide from 'components/wtsp/left/LeftSide'
 import Groups from 'components/wtsp/right/groups/Groups'
 
@@ -30,7 +30,7 @@ class Home extends Component {
                         <Switch>
                             <Route exact path='/wtsp' component={Welcome}/>
                             <Route path='/wtsp/profile/:profileId?' component={Profile}/>
-                            <Route path='/wtsp/chats/:roomType/:chatName' component={ChatBox}/>
+                            <Route path='/wtsp/chats/:roomType/:chatName' component={Box}/>
                             <Route exact path='/wtsp/groups' component={Groups}/>
                             <Route path='/wtsp/groups/add' component={AddGroup}/>
                             <Route path='/wtsp/groups/edit/:groupId' component={EditGroup}/>

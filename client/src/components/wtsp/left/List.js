@@ -76,7 +76,8 @@ class List extends Component {
     setPreviewMessageAndPushUp(data) {
         const chatType = (data.type === 'friends') ? 'friend_chat' : 'group_chat'
         let friends = Object.assign({}, this.state.room)
-        let i = friends[data.type].findIndex(room => room.id === data.message[chatType])
+        let i = friends[data.type].findIndex(room => room.id === Number(data.message[chatType]))
+        if (i < 0) return
         let room = friends[data.type][i]
         room.message = data.message
         friends[data.type].splice(i, 1)

@@ -18,13 +18,14 @@ class ChatBox extends Component {
     
     state = { 
         showChat: false,
-        chatName:  this.props.match.params.chatName,
-        roomType: this.props.match.params.roomType,
+        chatName:  this.props.chatName,
+        roomType: this.props.roomType,
         rooms: this.props.chats.chatsList,
         activeRoom: null,
         allMessages: [],
         modal: false,
         photo: null,
+        messagePhoto: null,
         onlineUsers: []
      }
 
@@ -40,15 +41,6 @@ class ChatBox extends Component {
         })
     }
 
-
-    pushOnlineUsers(members) {
-        let onlineUsers = this.state.onlineUsers
-        members.each(member => {onlineUsers.push(member.info.username)})
-        onlineUsers = [...(new Set(onlineUsers))]
-        this.setState({ onlineUsers }, () => console.log(this.state.onlineUsers))
-    }
-
-
     toggleModal() {
         this.setState({ modal: !this.state.modal })
         this.resetPhoto()
@@ -58,11 +50,11 @@ class ChatBox extends Component {
         let files = e.target.files
         let reader = new FileReader()
         reader.readAsDataURL(files[0])
-        reader.onload = e => this.setState({ photo: e.target.result })
+        reader.onload = e => this.setState({ photo: e.target.result, messagePhoto: files[0] })
     }
 
     resetPhoto() {
-        this.setState({ photo: null })
+        this.setState({ photo: null, messagePhoto: null })
     }
 
     listenRealTimeMessage(roomName, chatId) {
@@ -72,6 +64,13 @@ class ChatBox extends Component {
             channel.bind('pusher:member_added', () => this.pushOnlineUsers(channel.members))
             channel.bind('pusher:member_removed', () => this.pushOnlineUsers(channel.members))
         })
+    }
+
+    pushOnlineUsers(members) {
+        let onlineUsers = this.state.onlineUsers
+        members.each(member => {onlineUsers.push(member.info.username)})
+        onlineUsers = [...(new Set(onlineUsers))]
+        this.setState({ onlineUsers })
     }
 
     async getMessages() {
@@ -89,7 +88,6 @@ class ChatBox extends Component {
                 }
             })  
         }) 
-        this.listenRealTimeMessage(`${roomType}_chat`, this.state.activeRoom.id)
     }
 
     getChatByUserName() {
@@ -104,10 +102,10 @@ class ChatBox extends Component {
                 name: room.user ?  room.user.username : room.name,
                 avatar: room.user ?  room.user.avatar : room.avatar
             }
-            this.setState({ activeRoom, onlineUsers: [] }, () => {
+            this.setState({ activeRoom }, () => {
                 this.getMessages()
-                    let roomName = this.state.roomType === 'friends' ? 'friend' : 'group'
-                    this.listenRealTimeMessage(roomName, this.state.activeRoom.id)
+                let roomName = this.state.roomType === 'friends' ? 'friend' : 'group'
+                this.listenRealTimeMessage(`${roomName}_chat`, this.state.activeRoom.id)
         
             })
         }
@@ -117,19 +115,6 @@ class ChatBox extends Component {
     friendName() {
         let chatName = this.state.chatName
         return chatName.replace('_', ' ')
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.location !== nextProps.location) {
-            this.changeUserChat(nextProps)
-        }
-    }
-
-    changeUserChat(nextProps) {
-        this.setState({ 
-            chatName: nextProps.match.params.chatName,
-            roomType: nextProps.match.params.roomType
-         }, () => this.getChatByUserName())
     }
 
     pushConversation(data) {

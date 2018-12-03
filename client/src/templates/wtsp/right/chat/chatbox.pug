@@ -27,11 +27,11 @@ div
                 .container(@unless='this.state.photo')
                     label.upload_photo
                         i.material-icons file_upload
-                        input(type="file" name="photo" onChange='{this.handleFileChange.bind(this)}')
+                        input(type="file" name="messagePhoto" onChange='{this.handleFileChange.bind(this)}')
                 .container(@if='this.state.photo')
                     .preview
                         img(src="{this.state.photo}")
                         a(onClick="{this.resetPhoto.bind(this)}")
                             i.material-icons clear
             
-        Send(chatId='{this.state.activeRoom.id}' modal='{this.state.modal}' toggleModal='{this.toggleModal.bind(this)}' roomType="{this.state.roomType === 'friends' ? 'friend' : 'group'}")
+        Send(chatId='{this.state.activeRoom.id}' messagePhoto='{this.state.messagePhoto}' modal='{this.state.modal}' toggleModal='{this.toggleModal.bind(this)}' roomType="{this.state.roomType === 'friends' ? 'friend' : 'group'}")
