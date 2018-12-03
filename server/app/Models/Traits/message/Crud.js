@@ -2,7 +2,7 @@
 
 const Message = use('App/Models/Message')
 const Event = use('Event')
-const Env = use('Env')
+const User = use('App/Models/User')
 
 class Crud {
 
@@ -14,27 +14,13 @@ class Crud {
 
       const { roomName, chatId, body } = request.all()
 
-      const messagePhoto = request.file('messagePhoto', {
-        types: ['image'],
-        size: '2mb'
-      })
-
-      let photo = null
-
-      if (messagePhoto) {
-        photo = `${new Date().getTime()}.${messagePhoto.subtype}`
-        await messagePhoto.move(`public/upload/${user.id}/messages/`, {name: photo})
-      }
-
-      if (photo) photo = `${Env.get('APP_URL', '')}/upload/${user.id}/messages/${photo}`
+      let photo = await User.Upload(request, 'messagePhoto', user.id, 'messages')
 
       const message = await Message.create({ body, user_id: user.id, [roomName]: chatId, photo })
 
       message.user = user
 
       await Event.fire('message', { message, room: `${roomName}${chatId}`})
-
-      console.log(`${roomName}${chatId}`)
 
       return { message }
 

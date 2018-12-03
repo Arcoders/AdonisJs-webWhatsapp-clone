@@ -1,47 +1,27 @@
 'use strict'
 
 const User = use('App/Models/User')
-const Env = use('Env')
-
+const Authorization = use('App/Services/Authorization')
 
 class Profile {
 
   register (Model) {
 
-    Model.editProfile = async (request, auth) => {
+    Model.editProfile = async (request, auth, userId) => {
 
       const user = await auth.getUser()
 
-      const { username } = request.all();
+      Authorization.check(userId, user)
 
-      const avatarUploaded = request.file('avatarUploaded', {
-        types: ['image'],
-        size: '2mb'
-      })
+      const { username, description } = request.all();
 
-      const coverUploaded = request.file('coverUploaded', {
-        types: ['image'],
-        size: '2mb'
-      })
+      let avatar = await User.Upload(request, 'avatarUploaded', user.id, 'avatars/profile')
+      let cover = await User.Upload(request, 'coverUploaded', user.id, 'covers/profile')
 
-      let avatar = null
-      let cover = null
-
-      if (avatarUploaded) {
-        avatar = `${new Date().getTime()}.${avatarUploaded.subtype}`
-        await avatarUploaded.move(`public/upload/${user.id}/avatars/profile/`, {name: avatar})
-      }
-
-      if (avatar) user.avatar = `${Env.get('APP_URL', '')}/upload/${user.id}/avatars/profile/${avatar}`
-
-      if (coverUploaded) {
-        cover = `${new Date().getTime()}.${coverUploaded.subtype}`
-        await coverUploaded.move(`public/upload/${user.id}/covers/profile/`, {name: cover })
-      }
-
-      if (cover) user.cover = `${Env.get('APP_URL', '')}/upload/${user.id}/covers/profile/${cover}`
-
+      if (avatar) user.avatar = avatar
+      if (cover) user.cover = cover
       user.username = username
+      user.description = description
 
       await user.save()
 

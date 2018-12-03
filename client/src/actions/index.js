@@ -162,7 +162,6 @@ export const addGroup = (formProps) => dispatch => {
  
  }
 
-
  export const editProfile = (formProps, id) => dispatch => {
  
      return axios().patch(`/profile/${id}`, formProps)

@@ -31,6 +31,15 @@ class Groups extends Component {
             .catch(error => console.log(error)) 
     }
 
+    deleteGroup(id) {
+        return axios().delete(`/groups/${id}`)
+            .then(() => {
+                let page = (this.state.groups.data.length === 1) ? this.state.groups.page - 1 : this.state.groups.page
+                this.getGroups(page)
+            })
+            .catch(error => console.log(error)) 
+    }
+
     render() {
         return template.call(this, { Avatar, NavLink, Paginate })
     }

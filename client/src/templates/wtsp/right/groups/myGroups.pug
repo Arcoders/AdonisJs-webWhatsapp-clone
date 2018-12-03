@@ -42,6 +42,11 @@
                             td(colSpan='4') No records found, please
                                 NavLink.green.link_add(to="/wtsp/groups/add") Add Groups
 
+                    tbody(@if='this.state.groups && !this.state.groups.data.length')
+                        tr
+                            td(colSpan='4') No records found, please
+                                NavLink.green.link_add(to="/wtsp/groups/add") Add Groups
+
                     tbody(@if='this.state.groups')
 
                         tr.data(@repeat='this.state.groups.data as group')
@@ -56,7 +61,7 @@
                                     i.material-icons.green mode_edit
 
                             td
-                                button.format(@click="deleteGroup(group._id)")
+                                button.format(onClick="{() => this.deleteGroup(group.id)}")
                                     i.material-icons.red delete
 
                 Paginate(@if='this.state.groups' getGroups='{this.getGroups.bind(this)}' source='{this.state.groups}')

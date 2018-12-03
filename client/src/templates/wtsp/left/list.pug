@@ -40,7 +40,7 @@
                             span(@if='group.message.body && group.message.photo')
                                 i.material-icons.photo photo
                                 | {group.message.body }
-                            span(@if='group.message.body') { group.message.body }
+                            span(@if='group.message.body && !group.message.photo') { group.message.body }
                             span(@if='group.message.photo && !group.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared

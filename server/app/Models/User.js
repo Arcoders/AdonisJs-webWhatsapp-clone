@@ -17,6 +17,7 @@ class User extends Model {
     this.addTrait('user/Friend')
     this.addTrait('user/Profile')
     this.addTrait('user/Chat')
+    this.addTrait('user/Upload')
 
     /**
      * A hook to hash the user password before saving
