@@ -2,6 +2,8 @@ import { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
+import { withRouter } from 'react-router-dom'
+
 import Avatar from 'react-user-avatar'
 
 import * as actions from 'actions/'
@@ -97,6 +99,7 @@ class ChatBox extends Component {
                 const roomName = (room.user) ? room.user.username : room.name
                 return roomName === this.friendName()
             })
+            if (!room) return this.props.history.push('/wtsp/')
             let activeRoom = {
                 id: room.id,
                 name: room.user ?  room.user.username : room.name,
@@ -139,6 +142,6 @@ class ChatBox extends Component {
 
 const mapStateToProps = state => state
 
-export default compose(connect(mapStateToProps, actions))(ChatBox)
+export default compose(connect(mapStateToProps, actions))(withRouter(ChatBox))
 
 

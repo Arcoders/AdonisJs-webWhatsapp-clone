@@ -3,6 +3,7 @@
 const Group = use('App/Models/Group')
 const User = use('App/Models/User')
 const Event = use('Event')
+const Env = use('Env')
 
 const Authorization = use('App/Services/Authorization')
 
@@ -24,9 +25,23 @@ class Crud {
 
       const user = await auth.getUser()
 
-      const { name, usersId } = request.all();
+      const { name, usersId } = request.all()
+
+      const avatarUploaded = request.file('avatarUploaded', {
+        types: ['image'],
+        size: '2mb'
+      })
+
+      let avatar = null
+
+      if (avatarUploaded) {
+        avatar = `${new Date().getTime()}.${avatarUploaded.subtype}`
+        await avatarUploaded.move(`public/upload/${user.id}/avatars/groups/`, {name: avatar})
+      }
+
+      if (avatar) avatar = `${Env.get('APP_URL', '')}/upload/${user.id}/avatars/groups/${avatar}`
         
-      const group = await Group.create({ name, user_id: user.id })
+      const group = await Group.create({ name, user_id: user.id, avatar })
 
       group.users = await group.users().attach(this.friendsId(usersId, user.id))
 
@@ -41,12 +56,25 @@ class Crud {
 
     Model.edit = async (request, auth, group) => {
 
-      let { usersId } = request.all();
+      let { usersId, avatarStatus } = request.all();
 
       const user = await auth.getUser()
 
       Authorization.check(group.user_id, user)
 
+      const avatarUploaded = request.file('avatarUploaded', {
+        types: ['image'],
+        size: '2mb'
+      })
+
+      if (avatarUploaded) {
+        let avatar = `${new Date().getTime()}.${avatarUploaded.subtype}`
+        await avatarUploaded.move(`public/upload/${user.id}/avatars/groups/`, {name: avatar})
+        group.avatar = `${Env.get('APP_URL', '')}/upload/${user.id}/avatars/groups/${avatar}`
+      }
+
+      if (avatarStatus === 'none') group.avatar = null
+        
       group.merge(request.only('name'))
 
       await group.save()
@@ -56,12 +84,11 @@ class Crud {
 
       group.users = await group.users().sync(friendsId)
 
-      this.notifyEditedUsers(old, usersId)
+      this.notifyEditedUsers(old, friendsId)
 
       return {
         status: 'Group updated successfully', 
-        group,
-        old
+        group
       }
 
     }
@@ -100,6 +127,8 @@ class Crud {
   }
 
   friendsId(usersId, userId) {
+
+    if (typeof usersId === 'string') usersId = usersId.split(',').map(id => Number(id))
 
     if (!(usersId instanceof Array)) return [userId]
 

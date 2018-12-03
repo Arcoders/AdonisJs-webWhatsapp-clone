@@ -19,7 +19,9 @@ class EditGroup extends Component {
     state = {
         selectedOption: null,
         friends: [],
-        photo: null,
+        avatar: null,
+        avatarStatus: null,
+        photoUploaded: null,
         name: '',
         groupId: this.props.match.params.groupId
     }
@@ -45,7 +47,8 @@ class EditGroup extends Component {
                 }
             })
             let name = data.group.name
-            this.setState({ selectedOption, name, friends })
+            let avatar = data.group.avatar
+            this.setState({ selectedOption, name, friends, avatar, avatarStatus: (data.group.avatar) ? 'yes' : 'none' })
         })
         .catch(() => {
             this.props.history.push('/wtsp')
@@ -67,12 +70,13 @@ class EditGroup extends Component {
 
     async sendForm(event) {
         event.preventDefault()
-        let body = {
-            name: this.state.name,
-            usersId: (this.state.selectedOption) ? this.state.selectedOption.map(ops => ops.value) : [],
-        }
 
-        await this.props.editGroup(this.state.groupId, body)
+        let formData = new FormData()
+        formData.append('name', this.state.name)
+        formData.append('usersId', (this.state.selectedOption) ? this.state.selectedOption.map(ops => ops.value) : [])
+        formData.append('avatarStatus', this.state.avatarStatus)
+        if (this.state.photoUploaded) formData.append('avatarUploaded', this.state.photoUploaded)
+        await this.props.editGroup(this.state.groupId, formData)
 
     }
 
@@ -92,11 +96,11 @@ class EditGroup extends Component {
         let files = e.target.files
         let reader = new FileReader()
         reader.readAsDataURL(files[0])
-        reader.onload = e => this.setState({ photo: e.target.result })
+        reader.onload = e => this.setState({ avatar: e.target.result, photoUploaded: files[0], avatarStatus: 'yes' })
     }
 
     clearPhoto() {
-        this.setState({ photo: null })
+        this.setState({ avatar: null, photoUploaded: null, avatarStatus: 'none' })
     }
 
     render() {

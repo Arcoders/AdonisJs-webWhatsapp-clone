@@ -21,7 +21,7 @@
                     NavLink(to="/wtsp/groups")
                         i.material-icons arrow_back
 
-                    Avatar.avatar(name="{(this.state.name) ? this.state.name : '★'}" className="{this.state.photo || this.state.name ? 'avatar_shadow' : ''}" src="{this.state.photo}" size="55")
+                    Avatar.avatar(name="{(this.state.name) ? this.state.name : '★'}" className="{this.state.photo || this.state.name ? 'avatar_shadow' : ''}" src="{this.state.avatar}" size="55")
 
                     h4  Edit Group
 
@@ -33,13 +33,13 @@
 
                         label.upload_avatar
 
-                            button.button_upload(@unless='this.state.photo' type='button')
+                            button.button_upload(@unless='this.state.avatar' type='button')
                                 i.material-icons backup
 
-                            button.button_upload(@if='this.state.photo' type='button' onClick='{this.clearPhoto.bind(this)}')
+                            button.button_upload(@if='this.state.avatar' type='button' onClick='{this.clearPhoto.bind(this)}')
                                 i.material-icons clear
 
-                            input(@unless='this.state.photo' type="file" name="avatar" onChange='{this.handleFileChange.bind(this)}')
+                            input(@unless='this.state.avatar' type="file" name="avatar" onChange='{this.handleFileChange.bind(this)}')
 
                         input.input_name(name="name" value="{this.state.name}" type="text"  onChange='{this.handleNameChange.bind(this)}' placeholder="Group name...")
 

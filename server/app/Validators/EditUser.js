@@ -4,7 +4,7 @@
 class EditUser {
   get rules () {
 
-    const { userId } = this.ctx.params.userId
+    const { userId } = this.ctx.params
 
     return {
       username: `required|max:20|min:3|unique:users,username,id,${userId}`

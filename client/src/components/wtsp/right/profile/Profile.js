@@ -24,14 +24,24 @@ class Profile extends Component {
 
         this.getProfileById()
         event.$on('new_user_profile', user => this.setState({ user }))
-        event.$on('preview_avatar', avatarSrc => {
+        event.$on('avatarUploaded', avatarSrc => {
             let user = Object.assign({}, this.state.user)
             user.avatar = avatarSrc
             this.setState({ user })
         })
-        event.$on('preview_username', username => {
+        event.$on('coverUploaded', coverSrc => {
+            let user = Object.assign({}, this.state.user)
+            user.cover = coverSrc
+            this.setState({ user })
+        })
+        event.$on('username', username => {
             let user = Object.assign({}, this.state.user)
             user.username = username || '!'
+            this.setState({ user })
+        })
+        event.$on('description', description => {
+            let user = Object.assign({}, this.state.user)
+            user.description = description
             this.setState({ user })
         })
     }

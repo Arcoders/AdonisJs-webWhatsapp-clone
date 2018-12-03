@@ -4,22 +4,22 @@
 
         h1 Edit information
 
-        input.info(type='text' placeholder='Username' onChange='{e => this.handleUsername(e)}')
+        input.info(type='text' value='{this.state.username}' name='username' placeholder='Username'  onChange='{e => this.handleInputChange(e)}')
 
-        input.info(type='text'  placeholder='Description')
+        input.info(type='text' value='{this.state.description}' name='description'  placeholder='Description' onChange='{e => this.handleInputChange(e)}')
 
         h1 Select avatar
 
         label.upload_profile
             .area
                 i.material-icons.edit_i photo_camera
-            input(type="file" name="Avatar"  ref='Avatar' onChange='{e => this.handleFileChange(e)}')
+            input(type="file" name="avatar"   onChange='{e => this.handleFileChange(e)}')
 
         h1 Select cover
 
         label.upload_profile
             .area
                 i.material-icons.edit_i photo_size_select_actual
-            input(type='file' name='Cover' ref='Cover')
+            input(type='file' name='cover' onChange='{e => this.handleFileChange(e)}')
 
-        button.save() Save
+        button.save(onClick='{this.sendForm.bind(this)}') Save

@@ -18,6 +18,7 @@ class AddGroup extends Component {
         selectedOption: null,
         friends: [],
         photo: null,
+        photoUploaded: null,
         name: ''
     }
 
@@ -39,13 +40,14 @@ class AddGroup extends Component {
 
     async sendForm(event) {
         event.preventDefault()
-        let body = {
-            name: this.state.name,
-            usersId: (this.state.selectedOption) ? this.state.selectedOption.map(ops => ops.value) : [],
-        }
 
-        await this.props.addGroup(body)
-        this.setState({ name: '', selectedOption: null, photo: null })
+        let formData = new FormData()
+        formData.append('name', this.state.name)
+        formData.append('usersId', (this.state.selectedOption) ? this.state.selectedOption.map(ops => ops.value) : [])
+        if (this.state.photoUploaded) formData.append('avatarUploaded', this.state.photoUploaded)
+
+        await this.props.addGroup(formData)
+        this.setState({ name: '', selectedOption: null, photo: null, photoUploaded: null })
 
     }
 
@@ -65,7 +67,7 @@ class AddGroup extends Component {
         let files = e.target.files
         let reader = new FileReader()
         reader.readAsDataURL(files[0])
-        reader.onload = e => this.setState({ photo: e.target.result })
+        reader.onload = e => this.setState({ photo: e.target.result, photoUploaded: files[0] })
     }
 
     clearPhoto() {

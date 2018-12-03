@@ -23,10 +23,10 @@ class Crud {
 
       if (messagePhoto) {
         photo = `${new Date().getTime()}.${messagePhoto.subtype}`
-        await messagePhoto.move('public/upload', {name: photo})
+        await messagePhoto.move(`public/upload/${user.id}/messages/`, {name: photo})
       }
 
-      if (photo) photo = `${Env.get('APP_URL', '')}/upload/${photo}`
+      if (photo) photo = `${Env.get('APP_URL', '')}/upload/${user.id}/messages/${photo}`
 
       const message = await Message.create({ body, user_id: user.id, [roomName]: chatId, photo })
 

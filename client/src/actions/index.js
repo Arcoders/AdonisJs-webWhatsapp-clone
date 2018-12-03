@@ -14,10 +14,9 @@ export const signup = (formProps, redirect) => dispatch => {
     
     return axios().post('/api/auth/register', formProps)
         .then(({ data }) => {
-            const { token } = data.jwt
-            dispatch({ type: AUTH_USER, payload: token})
+            dispatch({ type: AUTH_USER, payload: data})
             dispatch({ type: AUTH_ERROR, payload: null })
-            localStorage.setItem('token', token)
+            localStorage.setItem('auth', JSON.stringify(data))
             redirect()
         })
         .catch(error => {
@@ -157,6 +156,21 @@ export const addGroup = (formProps) => dispatch => {
      return axios().patch(`/groups/${id}`, formProps)
          .then((data) => {
              // console.log(data)
+         })
+         .catch(error => {
+         })   
+ 
+ }
+
+
+ export const editProfile = (formProps, id) => dispatch => {
+ 
+     return axios().patch(`/profile/${id}`, formProps)
+         .then(({data}) => {
+             let auth = JSON.parse(localStorage.getItem('auth'))
+             auth.user = data.user
+             dispatch({ type: AUTH_USER, payload: auth})
+             localStorage.setItem('auth', JSON.stringify(auth))
          })
          .catch(error => {
          })   

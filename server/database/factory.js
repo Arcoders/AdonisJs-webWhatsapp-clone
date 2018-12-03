@@ -22,6 +22,7 @@ Factory.blueprint('App/Models/User', (faker, i, data) => {
     username: (data.username) ? data.username : faker.username(),
     password: 'secret',
     avatar: (data.withoutAvatar) ? null : `https://api.adorable.io/avatars/285/${faker.last()}.png`,
+    cover: `https://source.unsplash.com/random?refresh=${Math.random()}-${Date.now()}`
   }
 
 })
@@ -66,7 +67,7 @@ Factory.blueprint('App/Models/Message', async (faker, i, data) => {
   const friend_chat = (data.friend_chat) ? data.friend_chat : null
   const group_chat = (data.group_chat) ? data.group_chat : null
   const body = faker.sentence({ words: 5 })
-  const photo = (Math.random() > 0.3) ? null : 'https://placeimg.com/640/480/any'
+  const photo = (Math.random() > 0.3) ? null : `https://source.unsplash.com/random?refresh=${Math.random()}-${Date.now()}`
   
   return { user_id, friend_chat, group_chat, body, photo  }
 
