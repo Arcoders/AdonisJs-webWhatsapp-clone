@@ -12,6 +12,8 @@ import Avatar from 'react-user-avatar'
 import arraySort from 'array-sort'
 import Moment from 'react-moment'
 
+import Preview from 'components/wtsp/left/Preview'
+
 import template from 'templates/wtsp/left/list.pug'
 
 class List extends Component {
@@ -48,16 +50,19 @@ class List extends Component {
     }
 
     async getChats() {
+        
         await this.props.getChats()
-        this.setState({ room: this.props.chats.chatsList })
-        this.setState({
-            rooms: {
+
+        this.setState({ 
+            room: {
                 friends: arraySort(this.props.chats.chatsList.friends, 'message.created_at').reverse(),
                 groups: arraySort(this.props.chats.chatsList.groups, 'message.created_at').reverse()
             }
+        }, () => {
+            this.listenRooms(this.state.room.friends.map(friend => friend.id), 'friend_chat', 'friends')
+            this.listenRooms(this.state.room.groups.map(groups => groups.id), 'group_chat', 'groups')
         })
-        this.listenRooms(this.state.room.friends.map(friend => friend.id), 'friend_chat', 'friends');
-        this.listenRooms(this.state.room.groups.map(groups => groups.id), 'group_chat', 'groups');
+        
     }
 
     listenRooms(object, type, roomType) {
@@ -90,7 +95,7 @@ class List extends Component {
     }
 
     render() {
-        return template.call(this, { Avatar, NavLink, Moment })
+        return template.call(this, { Avatar, NavLink, Moment, Preview })
     }
 
 }

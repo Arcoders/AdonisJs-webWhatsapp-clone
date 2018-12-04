@@ -43,8 +43,9 @@ class ChatBox extends Component {
         })
     }
 
-    toggleModal() {
+    toggleModal(hide) {
         this.setState({ modal: !this.state.modal })
+        if (hide) this.setState({ modal: false })
         this.resetPhoto()
     }
 

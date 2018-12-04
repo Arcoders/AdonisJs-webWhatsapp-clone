@@ -13,6 +13,8 @@ import AddGroup from 'components/wtsp/right/groups/AddGroup'
 import EditGroup from 'components/wtsp/right/groups/EditGroup'
 import MyGroups from 'components/wtsp/right/groups/MyGroups'
 
+import Alert from 'components/wtsp/Alert'
+
 import requireAuth from 'components/auth/RequireAuth'
 
 
@@ -21,6 +23,8 @@ class Home extends Component {
     render () {
         return (
             <div className='wrap'>
+
+                <Alert />
     
                 <div className='left'><LeftSide /></div>
     

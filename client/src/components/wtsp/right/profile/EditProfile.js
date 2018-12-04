@@ -41,7 +41,9 @@ class EditProfile extends Component {
         formData.append('description', this.state.description)
         if (this.state.avatarUploaded) formData.append('avatarUploaded', this.state.avatarUploaded)
         if (this.state.coverUploaded) formData.append('coverUploaded', this.state.coverUploaded)
+
         await this.props.editProfile(formData, this.props.auth.authenticated.user.id)
+
         this.setState({ avatarUploaded: null, coverUploaded: null })
 
     }

@@ -12,8 +12,9 @@
                         span(@if='friend.message')
                             span(@if='friend.message.body && friend.message.photo')
                                 i.material-icons.photo photo
-                                | {friend.message.body }
-                            span(@if='friend.message.body') { friend.message.body }
+                                Preview(message='{friend.message.body}')
+                            span(@if='friend.message.body && !friend.message.photo')
+                                Preview(message='{friend.message.body}')
                             span(@if='friend.message.photo && !friend.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared
@@ -39,8 +40,9 @@
                         span(@if='group.message')
                             span(@if='group.message.body && group.message.photo')
                                 i.material-icons.photo photo
-                                | {group.message.body }
-                            span(@if='group.message.body && !group.message.photo') { group.message.body }
+                                Preview(message='{group.message.body}')
+                            span(@if='group.message.body && !group.message.photo') 
+                                Preview(message='{group.message.body}')
                             span(@if='group.message.photo && !group.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared

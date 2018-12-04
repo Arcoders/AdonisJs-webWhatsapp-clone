@@ -5,23 +5,23 @@ import {
     AUTH_USER, AUTH_ERROR, 
     CHATS, CHATS_ERROR, CHATS_TOGGLE, 
     RANDOM_USERS, RANDOM_USERS_ERROR, 
-    USER, USER_ERROR, 
-    MESSAGES, MESSAGES_ERROR
+    USER,
+    MESSAGES
 } 
 from 'actions/types'
 
-export const signup = (formProps, redirect) => dispatch => {
+export const signup = (formProps) => dispatch => {
     
-    return axios().post('/api/auth/register', formProps)
+    return axios().post('/auth/register', formProps)
         .then(({ data }) => {
             dispatch({ type: AUTH_USER, payload: data})
             dispatch({ type: AUTH_ERROR, payload: null })
             localStorage.setItem('auth', JSON.stringify(data))
-            redirect()
+            window.location.href = '/wtsp'
         })
         .catch(error => {
-            let payload = 'An error has occurred';
-            if (error.response.status !== 500) payload = error.response.data.shift().message
+            let payload = 'An error has occurred'
+            if (error.response && error.response.status === 422) payload = error.response.data.shift().message
             dispatch({ type: AUTH_ERROR, payload })
         })   
 
@@ -37,18 +37,19 @@ export const signout = () => {
     }
 }
 
-export const signin = (formProps, redirect) => dispatch => {
+export const signin = (formProps) => dispatch => {
     
     return axios().post('/auth/login', formProps)
         .then(({ data }) => {
             dispatch({ type: AUTH_USER, payload: data})
             dispatch({ type: AUTH_ERROR, payload: null })
             localStorage.setItem('auth', JSON.stringify(data))
-            redirect()
+            window.location.href = '/wtsp'
+            
         })
         .catch(error => {
             let payload = 'An error has occurred';
-            if (error.response.status !== 500) payload = error.response.data.shift().message
+            if (error.response && error.response.status === 422) payload = error.response.data.shift().message
             dispatch({ type: AUTH_ERROR, payload })
         })   
 
@@ -63,7 +64,10 @@ export const getChats = () => dispatch => {
         })
         .catch(error => {
             let payload = 'An error has occurred'
-            if (error.response && error.response.status === 401) payload = 'Invalid Token'
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
             dispatch({ type: CHATS_ERROR, payload })
         })   
 
@@ -86,9 +90,13 @@ export const getUsers = () => dispatch => {
             dispatch({ type: RANDOM_USERS, payload: users})
         })
         .catch(error => {
-            let payload = 'An error has occurred';
-            if (error.response.status === 401) payload = 'Invalid Token'
+            let payload = 'list could not be loaded';
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
             dispatch({ type: RANDOM_USERS_ERROR, payload })
+            event.$emit('notificate', { message: payload, type: 'error'})
         })   
 
 }
@@ -102,8 +110,11 @@ export const getUserById = id => dispatch => {
     })
     .catch(error => {
         let payload = 'An error has occurred';
-        if (error.response.status === 401) payload = 'Invalid Token'
-        dispatch({ type: USER_ERROR, payload })
+        if (error.response && error.response.status === 401) {
+            localStorage.removeItem('auth')
+            window.location.href = '/signin'
+        }
+        event.$emit('notificate', { message: payload, type: 'error'})
     })   
 
 }
@@ -115,49 +126,69 @@ export const getMessages = (roomType, roomId) => dispatch => {
     })
     .catch(error => {
         let payload = 'An error has occurred';
-        if (error.response.status === 401) payload = 'Invalid Token'
-        dispatch({ type: MESSAGES_ERROR, payload })
+        if (error.response && error.response.status === 401) {
+            localStorage.removeItem('auth')
+            window.location.href = '/signin'
+        }
+        event.$emit('notificate', { message: payload, type: 'error'})
     })   
 
 }
 
 
-export const sendMessage = (formProps) => dispatch => {
+export const sendMessage = (formProps) => () => {
     
    // console.log(formProps)
 
     return axios().post('/messages/send', formProps)
         .then((data) => {
-            // console.log(data)
         })
         .catch(error => {
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
         })   
 
 }
 
-export const addGroup = (formProps) => dispatch => {
+export const addGroup = (formProps) => () => {
     
-    // console.log(formProps)
- 
      return axios().post('/groups/create', formProps)
-         .then((data) => {
-             // console.log(data)
+         .then(({data}) => {
+            event.$emit('notificate', { message: data.status, type: 'done'})
          })
          .catch(error => {
+            let payload = 'An error has occurred'
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
+            if (error.response && error.response.status === 422) {
+                payload = error.response.data.shift().message
+            }
+            event.$emit('notificate', { message: payload, type: 'error'})
          })   
  
  }
 
 
- export const editGroup = (id, formProps) => dispatch => {
+ export const editGroup = (id, formProps) => () => {
     
-    // console.log(formProps)
- 
      return axios().patch(`/groups/${id}`, formProps)
-         .then((data) => {
-             // console.log(data)
+         .then(({data}) => {
+            event.$emit('notificate', { message: data.status, type: 'done'})
          })
          .catch(error => {
+            let payload = 'An error has occurred'
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
+            if (error.response && error.response.status === 422) {
+                payload = error.response.data.shift().message
+            }
+            event.$emit('notificate', { message: payload, type: 'error'})
          })   
  
  }
@@ -170,8 +201,18 @@ export const addGroup = (formProps) => dispatch => {
              auth.user = data.user
              dispatch({ type: AUTH_USER, payload: auth})
              localStorage.setItem('auth', JSON.stringify(auth))
+            event.$emit('notificate', { message: data.status, type: 'done'})
          })
          .catch(error => {
+            let payload = 'An error has occurred'
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
+            if (error.response && error.response.status === 422) {
+                payload = error.response.data.shift().message
+            }
+            event.$emit('notificate', { message: payload, type: 'error'})
          })   
  
  }

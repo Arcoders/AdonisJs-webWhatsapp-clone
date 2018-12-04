@@ -1,6 +1,6 @@
 form.send(encType='multipart/form-data')
 
-    button(type='button' onClick='{this.props.toggleModal}')
+    button(type='button' onClick='{() => this.props.toggleModal()}')
 
         span(@if='this.props.modal')
             i.material-icons(class='green') photo_camera

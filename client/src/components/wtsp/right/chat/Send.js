@@ -21,6 +21,7 @@ class Send extends Component {
         formData.append('body', this.state.message)
         if (this.props.messagePhoto) formData.append('messagePhoto', this.props.messagePhoto)
         await this.props.sendMessage(formData)
+        this.props.toggleModal(true)
         this.setState({ message: '' })
 
     }

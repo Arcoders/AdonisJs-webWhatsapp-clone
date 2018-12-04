@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import axios from 'plugins/axios'
 import pusher from 'plugins/pusher'
+import event from 'plugins/bus'
 
 import template from 'templates/wtsp/right/profile/friendship.pug'
 
@@ -24,22 +25,21 @@ class Friendship extends Component {
         return axios().get(`/friends/check/${userId}`).then(({ data }) => {
             this.setState({ status: data.status })
         })
-        .catch((error) => console.log(error)) 
+        .catch(() => this.alertError()) 
     }
 
     addFriend() {
         return axios().post(`/friends/add/${this.props.currentUserId}`).then(({ data }) => {
             this.setState({ status: data.status })
         })
-        .catch((error) => console.log(error)) 
+        .catch(() => this.alertError()) 
     }
 
     rejectFriend() {
         return axios().delete(`/friends/reject/${this.props.currentUserId}`).then(({ data }) => {
             this.setState({ status: data.status })
-
         })
-        .catch((error) => console.log(error)) 
+        .catch(() => this.alertError()) 
     }
 
     acceptFriend() {
@@ -47,7 +47,11 @@ class Friendship extends Component {
         return axios().post(`/friends/accept/${this.props.currentUserId}`).then(({ data }) => {
             this.setState({ status: data.status })
         })
-        .catch((error) => console.log(error)) 
+        .catch(() => this.alertError()) 
+    }
+
+    alertError() {
+        event.$emit('notificate', { message: 'An error has occurred, please try it later', type: 'error'})
     }
 
     render() {
