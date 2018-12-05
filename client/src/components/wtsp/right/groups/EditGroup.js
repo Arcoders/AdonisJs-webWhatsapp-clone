@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 
 import axios from 'plugins/axios'
+import event from 'plugins/bus'
 
 import * as actions from 'actions/'
 
@@ -23,7 +24,8 @@ class EditGroup extends Component {
         avatarStatus: null,
         photoUploaded: null,
         name: '',
-        groupId: this.props.match.params.groupId
+        groupId: this.props.match.params.groupId,
+        invalid: false
     }
 
     componentDidMount() {
@@ -50,7 +52,17 @@ class EditGroup extends Component {
             let avatar = data.group.avatar
             this.setState({ selectedOption, name, friends, avatar, avatarStatus: (data.group.avatar) ? 'yes' : 'none' })
         })
-        .catch(() => {
+        .catch((error) => {
+            let payload = 'An error has occurred'
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('auth')
+                window.location.href = '/signin'
+            }
+            if (error.response && error.response.status === 422) payload = error.response.data.shift().message
+
+            if (error.response && error.response.status === 403) payload = error.response.data.error
+            
+            event.$emit('notificate', { message: payload, type: 'error'})
             this.props.history.push('/wtsp')
         })   
 
@@ -89,14 +101,16 @@ class EditGroup extends Component {
     }
 
     handleNameChange(event) {
-        this.setState({ name: event.target.value})
+        this.setState({ name: event.target.value}, () => this.setState({ invalid: (this.state.name.length < 3) }))
     }
 
     handleFileChange(e) {
         let files = e.target.files
         let reader = new FileReader()
         reader.readAsDataURL(files[0])
-        reader.onload = e => this.setState({ avatar: e.target.result, photoUploaded: files[0], avatarStatus: 'yes' })
+        reader.onload = e => {
+            this.setState({ avatar: e.target.result, photoUploaded: files[0], avatarStatus: 'yes' })
+        }
     }
 
     clearPhoto() {

@@ -105,6 +105,7 @@ export const getUserById = id => dispatch => {
     return axios().get(`/profile/${id}`)
     .then(({ data }) => {
         const { user } = data
+        if (!user) return event.$emit('notificate', { message: 'Profile not found', type: 'error'})
         dispatch({ type: USER, payload: user})
         event.$emit('new_user_profile', user)
     })
@@ -138,8 +139,6 @@ export const getMessages = (roomType, roomId) => dispatch => {
 
 export const sendMessage = (formProps) => () => {
     
-   // console.log(formProps)
-
     return axios().post('/messages/send', formProps)
         .then((data) => {
         })

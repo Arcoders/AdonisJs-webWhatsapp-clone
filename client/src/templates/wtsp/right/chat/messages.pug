@@ -9,7 +9,10 @@
             .content
                 div(@if='message.photo')
                     img(src='{message.photo}')
-                p  { message.text }
+                p(@if='message.text') { message.text }
+                p(@if='!message.text.length && !message.photo') 
+                    img(src='https://cdn0.iconfinder.com/data/icons/streamline-emoji-1/48/090-ghost-512.png')
+                    
 
             .time(@unless='message.error') 
                 Moment(fromNow='{true}') { message.time }

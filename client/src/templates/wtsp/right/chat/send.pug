@@ -1,4 +1,4 @@
-form.send(encType='multipart/form-data')
+form.send(onSubmit='{this.sendForm.bind(this)}')
 
     button(type='button' onClick='{() => this.props.toggleModal()}')
 
@@ -8,8 +8,7 @@ form.send(encType='multipart/form-data')
             i.material-icons() photo_camera
 
     .message
-        input#msg(onChange='{this.handleMessage.bind(this)}' autoComplete='off' value='{this.state.message}')
+        input(onChange='{this.handleMessage.bind(this)}' autoComplete='off' value='{this.state.message}')
 
-    button(type='button' @click="send")
-
-        i.material-icons(onClick='{this.sendForm.bind(this)}') send
+    button
+        i.material-icons send

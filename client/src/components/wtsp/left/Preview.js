@@ -8,9 +8,9 @@ const Preview = (props) => {
         message.length = 20
         message = `${message.join('')}...`
     } else {
-        message = message.join('')
+       message = message.join('')
     }
-    
+        
     return(
         <span>{message}</span>
     )

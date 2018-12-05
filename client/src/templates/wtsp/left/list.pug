@@ -18,6 +18,7 @@
                             span(@if='friend.message.photo && !friend.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared
+                            span(@if='!friend.message.body && !friend.message.photo') Empty...
                         span(@if='!friend.message') Empty chat...
 
             .time
@@ -46,7 +47,9 @@
                             span(@if='group.message.photo && !group.message.body')
                                 i.material-icons.photo photo
                                 | a photo has been shared
+                            span(@if='!group.message.body && !group.message.photo') Empty...
                         span(@if='!group.message') Empty chat...
+                        
 
             .time
                 p(@if='group.message')

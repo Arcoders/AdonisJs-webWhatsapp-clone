@@ -17,6 +17,10 @@ class Paginate extends Component {
         this.setState({ pages })
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setPages(nextProps.source)
+    }
+
     nextPrev(page) {
         if (page === 0 || page === this.props.source.lastPage + 1) return
         this.navigate(page)

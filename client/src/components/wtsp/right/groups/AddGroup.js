@@ -19,7 +19,8 @@ class AddGroup extends Component {
         friends: [],
         photo: null,
         photoUploaded: null,
-        name: ''
+        name: '',
+        invalid: true
     }
 
     componentDidMount() {
@@ -60,7 +61,7 @@ class AddGroup extends Component {
     }
 
     handleNameChange(event) {
-        this.setState({ name: event.target.value})
+        this.setState({ name: event.target.value}, () => this.setState({ invalid: (this.state.name.length < 3) }))
     }
 
     handleFileChange(e) {

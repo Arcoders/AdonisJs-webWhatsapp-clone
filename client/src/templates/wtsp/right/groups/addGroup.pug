@@ -27,7 +27,7 @@
 
                     hr
 
-                form(encType="multipart/form-data")
+                form(onSubmit='{this.sendForm.bind(this)}')
                     .group_input
 
 
@@ -41,8 +41,8 @@
 
                             input(@unless='this.state.photo' type="file" name="avatar" onChange='{this.handleFileChange.bind(this)}')
 
-                        input.input_name(name="name" value="{this.state.name}" type="text"  onChange='{this.handleNameChange.bind(this)}' placeholder="Group name...")
+                        input.input_name(name="name" autoComplete='off' value="{this.state.name}" type="text"  onChange='{this.handleNameChange.bind(this)}' placeholder="Group name...")
 
-                        button.button_send(type='button' desabled onClick='{this.sendForm.bind(this)}') Create
+                        button.button_send(disabled='{this.state.invalid}') Create
 
                     Select(isMulti='{true}' value='{this.state.selectedOption}' onChange='{this.handleChange.bind(this)}' options='{this.state.friends}')

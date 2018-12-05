@@ -1,6 +1,6 @@
 .pagination
 
-    ul.numbers
+    ul.numbers(@if='this.props.source.total')
         li
             a.prev(onClick="{() => this.nextPrev(Number(this.props.source.page) - 1)}" className="{this.disablePrev() ? 'disable' : ''}") «
 

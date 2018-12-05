@@ -90,7 +90,7 @@ class ChatBox extends Component {
                     time: message.created_at
                 }
             })  
-        }) 
+        }, () => this.scrollDown('chat')) 
     }
 
     getChatByUserName() {
@@ -131,7 +131,16 @@ class ChatBox extends Component {
             text: data.body,
             time: data.created_at
         })
-        this.setState({ allMessages })
+        this.setState({ allMessages }, () => this.scrollDown('chat'))
+    }
+
+    scrollDown(ref) {
+        window.setTimeout( () => {
+            if (this.refs[ref]) {
+                let elem = this.refs[ref]
+                elem.scrollTop = elem.scrollHeight
+            }
+        }, 500)
     }
 
 

@@ -8,6 +8,7 @@ import * as actions from 'actions/'
 import axios from 'plugins/axios'
 
 import Avatar from 'react-user-avatar'
+import event from 'plugins/bus'
 
 import Paginate from 'components/wtsp/right/groups/Paginate'
 
@@ -28,7 +29,14 @@ class Groups extends Component {
             .then(({data}) => {
                 this.setState({ groups: data.groups })
             })
-            .catch(error => console.log(error)) 
+            .catch(error => {
+                let payload = 'An error has occurred'
+                if (error.response && error.response.status === 401) {
+                    localStorage.removeItem('auth')
+                    window.location.href = '/signin'
+                }
+                event.$emit('notificate', { message: payload, type: 'error'})
+             })   
     }
 
     deleteGroup(id) {
@@ -37,7 +45,14 @@ class Groups extends Component {
                 let page = (this.state.groups.data.length === 1) ? this.state.groups.page - 1 : this.state.groups.page
                 this.getGroups(page)
             })
-            .catch(error => console.log(error)) 
+            .catch(error => {
+                let payload = 'An error has occurred'
+                if (error.response && error.response.status === 401) {
+                    localStorage.removeItem('auth')
+                    window.location.href = '/signin'
+                }
+                event.$emit('notificate', { message: payload, type: 'error'})
+             })   
     }
 
     render() {
