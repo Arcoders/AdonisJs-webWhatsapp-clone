@@ -19,6 +19,12 @@ class MessageController {
 
     }
 
+    async typing({ request, auth}) {
+
+        await Message.typing(request, auth)
+
+    }
+
 }
 
 module.exports = MessageController

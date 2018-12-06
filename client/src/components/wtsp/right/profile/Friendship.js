@@ -1,7 +1,5 @@
 import { Component } from 'react'
 import axios from 'plugins/axios'
-import pusher from 'plugins/pusher'
-import event from 'plugins/bus'
 
 import template from 'templates/wtsp/right/profile/friendship.pug'
 
@@ -12,7 +10,7 @@ class Friendship extends Component {
 
     componentDidMount() {
         this.relationshipStatus()
-        pusher.subscribe(`user${this.props.authenticatedUserId}`, channel => {
+        window.pusher.subscribe(`user${this.props.authenticatedUserId}`, channel => {
             channel.bind('friendship', () => this.relationshipStatus())
         })
     }
@@ -51,7 +49,7 @@ class Friendship extends Component {
     }
 
     alertError() {
-        event.$emit('notificate', { message: 'An error has occurred, please try it later', type: 'error'})
+        window.pusher.$emit('notificate', { message: 'An error has occurred, please try it later', type: 'error'})
     }
 
     render() {

@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "test": "node ace test",
+    "coverage": "nyc node ace test --timeout 15000",
+    "coverage-report": "nyc report --reporter=html"
   },
   "keywords": [
     "adonisjs",
@@ -29,7 +31,8 @@
     "mysql": "^2.16.0",
     "pusher": "^2.2.0",
     "rename-keys": "^2.0.1",
-    "route-model-binding-adonisjs": "^1.0.3"
+    "route-model-binding-adonisjs": "^1.0.3",
+    "nyc": "^13.1.0"
   },
   "devDependencies": {},
   "autoload": {

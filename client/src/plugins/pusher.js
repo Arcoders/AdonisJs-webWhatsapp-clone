@@ -1,91 +1,110 @@
 /**
  * Importing pusher
  */
-var Pusher = require('pusher-js');
+import Pusher from 'pusher-js'
 
 /**
- * VuePusher class.
+ * ExtendedPusher class
  *
- * @param {String} api_key
+ * @param {String} Pusher_key
  * @param {Object} options
  */
-function VuePusher (api_key, options) {
-    this.pusher   = new Pusher(api_key, options);
-    this.channels = [];
+class ExtendedPusher {
+
+    constructor(key, options) {
+        this.pusher   = new Pusher(key, options)
+        this.channels = []
+        this.events = {}
+    }
+
+    /**
+     * Subscribe to the given channel and give a fallback to bind events to the channel.
+     *
+     * @param  {String}   channel_name
+     * @param  {Function} callback
+     */
+    subscribe(channel_name, callback) {
+        let channel = this.pusher.subscribe(channel_name)
+        if (!this.channels.includes(channel)) this.channels.push(channel_name)
+        callback(channel)
+    }
+
+    /**
+     * Unsubscribe from the given channel.
+     *
+     * @param  {String} channel
+     */
+    unsubscribe(channel) {
+        this.pusher.unsubscribe(channel)
+    }
+
+    /**
+     * Return all the chanels.
+     *
+     * @return {Array}
+     */
+    getChannels() {
+        return this.channels
+    }
+
+    /**
+     * Emit event with a custom name and a callback
+     *
+     * @param {String} name the event type to be created
+     * @param {Function} data the handler to be share
+     */
+    $emit(name, data) {
+		this.events[name] && this.events[name].head.run(data)
+    }
+        
+    /**
+     * Listen an event with a custom name and recive data from callback
+     *
+     * @param {String} name  the event type to be triggered
+     * @param {Function} data the handler to be called when event occurs
+     */
+	$on(name, callback) {
+		(this.events[name] || (this.events[name] = new List())).insert(callback)
+	}
+
 }
 
 /**
- * Subscribe to the given channel and give a fallback to bind events to the channel.
+ * Make any js object an event emitter
  *
- * @param  {String}   channel_name
- * @param  {Function} callback
+ * @class Bond
  */
-VuePusher.prototype.subscribe = function (channel_name, callback) {
-    var channel = this.pusher.subscribe(channel_name);
+class Bond {
 
-    if (! this.channels.includes(channel)) {
-        this.channels.push(channel_name);
+	constructor(prev, next, callback = () => {}) {
+		this.prev = prev
+		this.next = next
+		this.callback = callback
     }
-
-    callback(channel);
-};
+    
+	run (data) {
+		this.callback(data)
+		this.next && this.next.run(data)
+    }
+    
+}
 
 /**
- * Unsubscribe from the given channel.
+ * logic to add events to the list
  *
- * @param  {String} channel
+ * @class List
  */
-VuePusher.prototype.unsubscribe = function (channel) {
-    this.pusher.unsubscribe(channel);
-};
+class List {
+	constructor() {
+		this.head = new Bond()
+		this.tail = new Bond(this.head)
+	}
+	insert(callback) {
+		let link = new Bond(this.tail.prev, this.tail, callback)
+		return link.next.prev = (link.prev.next = link)
+	}
+}
 
-/**
- * Return all the chanels.
- *
- * @return {Array}
- */
-VuePusher.prototype.getChannels = function () {
-    return this.channels;
-};
+export default ExtendedPusher
 
-const auth = JSON.parse(localStorage.getItem('auth'))
-
-let _Pusher = new VuePusher('60efd870de38efff2291', {
-    cluster: 'eu',
-    encrypted: true,
-})
-
-if (auth) {
-
-    _Pusher = new VuePusher('60efd870de38efff2291', {
-        authEndpoint: 'http://127.0.0.1:3333/api/pusher',
-        auth: {
-          headers: {
-            Authorization: `Bearer ${auth ? auth.jwt.token : ''}`,
-          },
-        },
-        cluster: 'eu',
-        encrypted: true,
-    })
-
-} 
-
-export default _Pusher
-
-
-
-
-
-/*
-
-module.exports = {
-    install: function (Vue, options) {
-        var pusher = new VuePusher(options.api_key, options.options);
-
-        Vue.prototype.pusher  = pusher;
-        Vue.prototype.$pusher = pusher.pusher; // Just in case they want to manage it themselves.
-    }
-};
-
-*/
 

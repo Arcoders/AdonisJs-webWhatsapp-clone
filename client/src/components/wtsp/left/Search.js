@@ -2,8 +2,6 @@ import { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-import event from 'plugins/bus'
-
 import template from 'templates/wtsp/left/search.pug'
 
 class Search extends Component {
@@ -27,7 +25,7 @@ class Search extends Component {
             
             if (this.state.name === '') type = 'friends'
             
-            event.$emit('filter', { type, friends, groups })
+            window.pusher.$emit('filter', { type, friends, groups })
         }
       }
 

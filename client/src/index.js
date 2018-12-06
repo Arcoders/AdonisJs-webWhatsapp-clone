@@ -13,11 +13,27 @@ import Signout from 'components/auth/Signout'
 import Signin from 'components/auth/Signin'
 
 import Whatsapp from 'components/wtsp/Whatsapp'
+import ExtendedPusher from 'plugins/pusher'
+
+const auth = JSON.parse(localStorage.getItem('auth'))
+
+let pusher = new ExtendedPusher('60efd870de38efff2291', {
+    authEndpoint: 'http://127.0.0.1:3333/api/pusher',
+    auth: {
+        headers: {
+        Authorization: `Bearer ${auth && auth.jwt.token}`,
+        },
+    },
+    cluster: 'eu',
+    encrypted: true,
+})
+
+window.pusher = pusher
 
 const store = createStore(
     reducers,
     {
-        auth: { authenticated: JSON.parse(localStorage.getItem('auth')) }
+        auth: { authenticated: auth }
     },
     applyMiddleware(reduxThunk)
 )

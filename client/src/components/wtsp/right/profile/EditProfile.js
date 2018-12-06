@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 
 import * as actions from 'actions/'
 
-import event from 'plugins/bus'
 
 import template from 'templates/wtsp/right/profile/editProfile.pug'
 
@@ -24,13 +23,13 @@ class EditProfile extends Component {
         let reader = new FileReader()
         reader.readAsDataURL(files[0])
         let name = `${e.target.name}Uploaded`
-        reader.onload = e => event.$emit(name, e.target.result)
+        reader.onload = e => window.pusher.$emit(name, e.target.result)
         this.setState({ [name]: files[0] })
     }
 
     handleInputChange(e) {
         this.setState({ [e.target.name]: e.target.value })
-        event.$emit(e.target.name, e.target.value)
+        window.pusher.$emit(e.target.name, e.target.value)
     }
     
     async sendForm(event) {

@@ -36,6 +36,16 @@ class Crud {
 
     }
 
+    Model.typing = async (request, auth) => {
+
+      const user = await auth.getUser()
+
+      const { roomName, chatId } = request.all()
+
+      await Event.fire('typing', { user, room: `typing-${roomName}_chat${chatId}`})
+
+    }
+
   }
 
 }

@@ -8,7 +8,7 @@ class Upload {
     
     Model.Upload = async (request, type, userId, folder) => {
 
-      const uploaded = request.file(type, { types: ['image'], size: '2mb'})
+      const uploaded = request.file(type, { types: ['image'], size: '20mb'})
 
       if (uploaded) {
 

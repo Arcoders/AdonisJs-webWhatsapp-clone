@@ -8,9 +8,6 @@ import Avatar from 'react-user-avatar'
 
 import * as actions from 'actions/'
 
-import event from 'plugins/bus'
-import pusher from 'plugins/pusher'
-
 import Send from 'components/wtsp/right/chat/Send'
 import Messages from 'components/wtsp/right/chat/Messages'
 
@@ -28,7 +25,8 @@ class ChatBox extends Component {
         modal: false,
         photo: null,
         messagePhoto: null,
-        onlineUsers: []
+        onlineUsers: [],
+        typing: []
      }
 
      
@@ -36,11 +34,13 @@ class ChatBox extends Component {
 
         this.getChatByUserName()
 
-        event.$on('show_chat', () => {
+        window.pusher.$on('show_chat', () => {
             let rooms = this.props.chats.chatsList
             this.setState({ rooms })
             this.getChatByUserName()
         })
+        window.pusher.$on('down', () => this.scrollDown('chat'))
+        
     }
 
     toggleModal(hide) {
@@ -61,12 +61,35 @@ class ChatBox extends Component {
     }
 
     listenRealTimeMessage(roomName, chatId) {
-        pusher.subscribe(`presence-${roomName}${chatId}`, channel => {
+        
+        window.pusher.subscribe(`presence-${roomName}${chatId}`, channel => {
             channel.bind('newMessage', message => this.pushConversation(message))
             channel.bind('pusher:subscription_succeeded', () => this.pushOnlineUsers(channel.members))
             channel.bind('pusher:member_added', () => this.pushOnlineUsers(channel.members))
             channel.bind('pusher:member_removed', () => this.pushOnlineUsers(channel.members))
         })
+
+        window.pusher.subscribe(`typing-${roomName}${chatId}`,  channel => {
+            
+            channel.bind('typing', user => {
+                let typing = this.state.typing
+                let found = typing.filter(t => t.id === user.id)
+                if (found.length) return
+                typing.push(user)
+                this.setState({ typing }, () => {
+                    window.pusher.$emit('typing', this.state.typing)
+                    setTimeout(() => {
+                        typing = typing.filter(t => t.id !== user.id)
+                        this.setState({ typing }, () => {
+                            window.pusher.$emit('typing', this.state.typing)
+                        })
+                    }, 10000)
+                })
+
+            })
+
+        })
+
     }
 
     pushOnlineUsers(members) {
@@ -79,6 +102,9 @@ class ChatBox extends Component {
     async getMessages() {
         let roomType = this.state.roomType === 'friends' ? 'friend' : 'group'
         await this.props.getMessages(`${roomType}_chat`, this.state.activeRoom.id) 
+
+        if (this.props.room.messagesList.length === 0) return this.welcomeMessage()
+
         this.setState({ 
             allMessages: this.props.room.messagesList.reverse().map(message => {
                 return {
@@ -121,8 +147,30 @@ class ChatBox extends Component {
         return chatName.replace('_', ' ')
     }
 
+    welcomeMessage() {
+
+        let allMessages = [...this.state.allMessages]
+
+        allMessages.push({
+            welcome: true,
+            id: this.props.auth.authenticated.user.id,
+            name: 'h i...',
+            avatar: '../../../images/default/welcome.png',
+            photo: null,
+            text: 'Be the first to greet...',
+            time: new Date()
+        })
+
+        this.setState({ allMessages })
+    }
+
     pushConversation(data) {
         let allMessages = [...this.state.allMessages]
+
+        let typing = this.state.typing.filter(t => t.id !== data.user.id)
+        
+        if (allMessages !== 0 && allMessages[0]['welcome']) allMessages.shift()
+
         allMessages.push({
             id: data.user.id,
             name: data.user.username,
@@ -131,7 +179,10 @@ class ChatBox extends Component {
             text: data.body,
             time: data.created_at
         })
-        this.setState({ allMessages }, () => this.scrollDown('chat'))
+        this.setState({ allMessages, typing: typing }, () => {
+            this.scrollDown('chat')
+            window.pusher.$emit('typing', this.state.typing)
+        })
     }
 
     scrollDown(ref) {
@@ -142,7 +193,6 @@ class ChatBox extends Component {
             }
         }, 500)
     }
-
 
     render() {
         return template.call(this, { Avatar, Send, Messages })

@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter, NavLink } from 'react-router-dom'
 import * as actions from 'actions/'
 
-import pusher from 'plugins/pusher'
-import event from 'plugins/bus'
+import responsive from 'assets/style'
 
 
 import Avatar from 'react-user-avatar'
@@ -29,14 +28,14 @@ class List extends Component {
         
         this.getChats()
 
-        pusher.subscribe(`user${this.props.auth.authenticated.user.id}`, channel => {
+        window.pusher.subscribe(`user${this.props.auth.authenticated.user.id}`, channel => {
             channel.bind('refreshList', async data => {
                 this.getChats()
                 this.props.toggleChatTo(data)
             })
         })
 
-        event.$on('filter', (data) => {
+        window.pusher.$on('filter', (data) => {
 
             let room = {
                 friends: data.friends,
@@ -69,7 +68,7 @@ class List extends Component {
 
         object.forEach(id => {
 
-            pusher.subscribe(`${type}${id}`, channel => {
+            window.pusher.subscribe(`${type}${id}`, channel => {
                 channel.bind('updatePreviewMessage', message => {
                     this.setPreviewMessageAndPushUp({ message, type: roomType })
                 })
@@ -95,7 +94,7 @@ class List extends Component {
     }
 
     render() {
-        return template.call(this, { Avatar, NavLink, Moment, Preview })
+        return template.call(this, { responsive, Avatar, NavLink, Moment, Preview })
     }
 
 }

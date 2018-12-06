@@ -25,13 +25,6 @@ class Header extends Component {
 
     render() {
         return null
-      /*  return (
-            <div>
-                <Link to='/'>Redux Auth</Link>
-                {this.renderLinks()}
-            </div>
-        )
-      */
     }
 
 }

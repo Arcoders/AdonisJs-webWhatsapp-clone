@@ -10,6 +10,6 @@ export default () => {
         headers: {
             Authorization: `Bearer ${auth ? auth.jwt.token : ''}`,
         },
-    });
+    })
 
 }

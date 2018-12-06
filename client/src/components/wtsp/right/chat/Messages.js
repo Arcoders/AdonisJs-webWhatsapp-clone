@@ -11,7 +11,15 @@ import template from 'templates/wtsp/right/chat/messages.pug'
 
 class Messages extends Component {
     
-    state = { allMessages: this.props.allMessages }
+    state = { allMessages: this.props.allMessages, typing: [] }
+
+    componentDidMount() {
+        window.pusher.$on('typing', typing => {
+            this.setState({ typing }, () => {
+                window.pusher.$emit('down', {})
+            })
+        })
+    }
 
     messageClass(userId) {
         return (this.props.auth.authenticated.user.id === userId)

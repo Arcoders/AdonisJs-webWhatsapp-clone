@@ -1,5 +1,4 @@
 import axios from 'plugins/axios'
-import event from 'plugins/bus'
 
 import { 
     AUTH_USER, AUTH_ERROR, 
@@ -60,7 +59,7 @@ export const getChats = () => dispatch => {
     return axios().get('/chats')
         .then(({ data }) => {
             dispatch({ type: CHATS, payload: data})
-            event.$emit('show_chat', true)
+            window.pusher.$emit('show_chat', true)
         })
         .catch(error => {
             let payload = 'An error has occurred'
@@ -96,7 +95,7 @@ export const getUsers = () => dispatch => {
                 window.location.href = '/signin'
             }
             dispatch({ type: RANDOM_USERS_ERROR, payload })
-            event.$emit('notificate', { message: payload, type: 'error'})
+            window.pusher.$emit('notificate', { message: payload, type: 'error'})
         })   
 
 }
@@ -105,9 +104,9 @@ export const getUserById = id => dispatch => {
     return axios().get(`/profile/${id}`)
     .then(({ data }) => {
         const { user } = data
-        if (!user) return event.$emit('notificate', { message: 'Profile not found', type: 'error'})
+        if (!user) return window.pusher.$emit('notificate', { message: 'Profile not found', type: 'error'})
         dispatch({ type: USER, payload: user})
-        event.$emit('new_user_profile', user)
+        window.pusher.$emit('new_user_profile', user)
     })
     .catch(error => {
         let payload = 'An error has occurred';
@@ -115,7 +114,7 @@ export const getUserById = id => dispatch => {
             localStorage.removeItem('auth')
             window.location.href = '/signin'
         }
-        event.$emit('notificate', { message: payload, type: 'error'})
+        window.pusher.$emit('notificate', { message: payload, type: 'error'})
     })   
 
 }
@@ -131,7 +130,7 @@ export const getMessages = (roomType, roomId) => dispatch => {
             localStorage.removeItem('auth')
             window.location.href = '/signin'
         }
-        event.$emit('notificate', { message: payload, type: 'error'})
+        window.pusher.$emit('notificate', { message: payload, type: 'error'})
     })   
 
 }
@@ -155,7 +154,7 @@ export const addGroup = (formProps) => () => {
     
      return axios().post('/groups/create', formProps)
          .then(({data}) => {
-            event.$emit('notificate', { message: data.status, type: 'done'})
+            window.pusher.$emit('notificate', { message: data.status, type: 'done'})
          })
          .catch(error => {
             let payload = 'An error has occurred'
@@ -166,7 +165,7 @@ export const addGroup = (formProps) => () => {
             if (error.response && error.response.status === 422) {
                 payload = error.response.data.shift().message
             }
-            event.$emit('notificate', { message: payload, type: 'error'})
+            window.pusher.$emit('notificate', { message: payload, type: 'error'})
          })   
  
  }
@@ -176,7 +175,7 @@ export const addGroup = (formProps) => () => {
     
      return axios().patch(`/groups/${id}`, formProps)
          .then(({data}) => {
-            event.$emit('notificate', { message: data.status, type: 'done'})
+            window.pusher.$emit('notificate', { message: data.status, type: 'done'})
          })
          .catch(error => {
             let payload = 'An error has occurred'
@@ -187,7 +186,7 @@ export const addGroup = (formProps) => () => {
             if (error.response && error.response.status === 422) {
                 payload = error.response.data.shift().message
             }
-            event.$emit('notificate', { message: payload, type: 'error'})
+            window.pusher.$emit('notificate', { message: payload, type: 'error'})
          })   
  
  }
@@ -200,7 +199,7 @@ export const addGroup = (formProps) => () => {
              auth.user = data.user
              dispatch({ type: AUTH_USER, payload: auth})
              localStorage.setItem('auth', JSON.stringify(auth))
-            event.$emit('notificate', { message: data.status, type: 'done'})
+             window.pusher.$emit('notificate', { message: data.status, type: 'done'})
          })
          .catch(error => {
             let payload = 'An error has occurred'
@@ -211,7 +210,7 @@ export const addGroup = (formProps) => () => {
             if (error.response && error.response.status === 422) {
                 payload = error.response.data.shift().message
             }
-            event.$emit('notificate', { message: payload, type: 'error'})
+            window.pusher.$emit('notificate', { message: payload, type: 'error'})
          })   
  
  }

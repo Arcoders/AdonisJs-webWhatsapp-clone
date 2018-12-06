@@ -14,7 +14,7 @@ class Crud {
 
       const user = await auth.getUser()
 
-      const groups = await Group.query().where('user_id', user.id).paginate(request.input('page'), 3)
+      const groups = await Group.query().where('user_id', user.id).paginate(request.input('page'), 5)
 
       return { groups }
 

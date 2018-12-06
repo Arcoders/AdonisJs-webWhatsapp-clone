@@ -4,8 +4,6 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import * as actions from 'actions/'
 
-import event from 'plugins/bus'
-
 import Avatar from 'react-user-avatar'
 import ListUsers from 'components/wtsp/right/profile/ListUsers'
 import Friendship from 'components/wtsp/right/profile/Friendship'
@@ -23,23 +21,23 @@ class Profile extends Component {
     componentDidMount() {
 
         this.getProfileById()
-        event.$on('new_user_profile', user => this.setState({ user }))
-        event.$on('avatarUploaded', avatarSrc => {
+        window.pusher.$on('new_user_profile', user => this.setState({ user }))
+        window.pusher.$on('avatarUploaded', avatarSrc => {
             let user = Object.assign({}, this.state.user)
             user.avatar = avatarSrc
             this.setState({ user })
         })
-        event.$on('coverUploaded', coverSrc => {
+        window.pusher.$on('coverUploaded', coverSrc => {
             let user = Object.assign({}, this.state.user)
             user.cover = coverSrc
             this.setState({ user })
         })
-        event.$on('username', username => {
+        window.pusher.$on('username', username => {
             let user = Object.assign({}, this.state.user)
             user.username = username || '!'
             this.setState({ user })
         })
-        event.$on('description', description => {
+        window.pusher.$on('description', description => {
             let user = Object.assign({}, this.state.user)
             user.description = description
             this.setState({ user })

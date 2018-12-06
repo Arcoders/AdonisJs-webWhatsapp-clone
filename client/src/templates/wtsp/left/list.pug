@@ -2,7 +2,7 @@
 
     .section(@if='this.props.chats.toggleStatus')
         .contact(@repeat='this.state.room.friends as friend')
-            NavLink(to="{'/wtsp/chats/friends/' + this.format(friend.user.username)}")
+            NavLink(onClick='{responsive.showRight}' to="{'/wtsp/chats/friends/' + this.format(friend.user.username)}")
                 Avatar.photo(name='{friend.user.username}' src='{friend.user.avatar}' size='55')
             .preview
                 .text
@@ -23,7 +23,7 @@
 
             .time
                 p(@if='friend.message') 
-                    Moment(interval='{60000}' durationFromNow='{true}') {friend.message.created_at}
+                    Moment(interval='{30000}' durationFromNow='{true}') {friend.message.created_at}
                 i.material-icons(@if='!friend.message') fiber_new
 
         .contact(@unless='this.state.room.friends.length')
@@ -31,7 +31,7 @@
 
     .section(@unless='this.props.chats.toggleStatus')
         .contact(@repeat='this.state.room.groups as group')
-            NavLink(to="{'/wtsp/chats/groups/' + this.format(group.name)}")
+            NavLink(onClick='{responsive.showRight}' to="{'/wtsp/chats/groups/' + this.format(group.name)}")
                 Avatar.photo(name='{group.name}' src='{group.avatar}' size='55')
             .preview
                 .text
@@ -53,7 +53,7 @@
 
             .time
                 p(@if='group.message')
-                    Moment(interval='{60000}' durationFromNow='{true}') {group.message.created_at}
+                    Moment(interval='{30000}' durationFromNow='{true}') {group.message.created_at}
                 i.material-icons(@if='!group.message') fiber_new
 
         .contact(@unless='this.state.room.groups.length')

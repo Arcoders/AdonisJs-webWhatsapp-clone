@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 
 import axios from 'plugins/axios'
-import event from 'plugins/bus'
 
 import * as actions from 'actions/'
 
@@ -62,7 +61,7 @@ class EditGroup extends Component {
 
             if (error.response && error.response.status === 403) payload = error.response.data.error
             
-            event.$emit('notificate', { message: payload, type: 'error'})
+            window.pusher.$emit('notificate', { message: payload, type: 'error'})
             this.props.history.push('/wtsp')
         })   
 

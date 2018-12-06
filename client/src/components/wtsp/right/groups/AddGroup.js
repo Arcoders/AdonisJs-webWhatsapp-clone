@@ -48,7 +48,7 @@ class AddGroup extends Component {
         if (this.state.photoUploaded) formData.append('avatarUploaded', this.state.photoUploaded)
 
         await this.props.addGroup(formData)
-        this.setState({ name: '', selectedOption: null, photo: null, photoUploaded: null })
+        this.setState({ name: '', selectedOption: null, photo: null, photoUploaded: null, invalid: true })
 
     }
 

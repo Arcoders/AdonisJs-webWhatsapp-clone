@@ -58,6 +58,7 @@ Route.group(() => {
 
   Route.get('messages/:roomName/:chatId', 'MessageController.messages');
   Route.post('messages/send', 'MessageController.send')
+  Route.post('messages/typing', 'MessageController.typing')
 
   // Pusher Auth ---------------------------------------------------------
 

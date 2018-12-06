@@ -16,13 +16,22 @@ import MyGroups from 'components/wtsp/right/groups/MyGroups'
 import Alert from 'components/wtsp/Alert'
 
 import requireAuth from 'components/auth/RequireAuth'
+import responsive from 'assets/style'
 
 
 class Home extends Component {
 
+    componentDidMount() {
+        responsive.resetStyle()
+    }
+
     render () {
         return (
             <div className='wrap'>
+                
+                <button className='navigate' onClick={() => responsive.updateStyles()}>
+                    <i className='material-icons'>arrow_back</i>
+                </button>
 
                 <Alert />
     

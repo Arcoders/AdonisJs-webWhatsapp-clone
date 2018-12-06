@@ -1,14 +1,15 @@
 .left_app
 
     .menu
-        NavLink(to="/wtsp/profile")
+        
+        NavLink(onClick='{responsive.showRight}' to="/wtsp/profile")
             Avatar.avatar(name='{this.props.auth.authenticated.user.username}' size='45' src='{this.props.auth.authenticated.user.avatar}')
 
-        NavLink(to="/wtsp/profile") {this.props.auth.authenticated.user.username}
+        NavLink(onClick='{responsive.showRight}' to="/wtsp/profile") {this.props.auth.authenticated.user.username}
 
         .icons
 
-            NavLink(to="/wtsp/groups")
+            NavLink(onClick='{responsive.showRight}' to="/wtsp/groups")
                 i.material-icons person_add
 
             a.notifications(data-badge='8')

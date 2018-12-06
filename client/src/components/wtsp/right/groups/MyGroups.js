@@ -8,7 +8,6 @@ import * as actions from 'actions/'
 import axios from 'plugins/axios'
 
 import Avatar from 'react-user-avatar'
-import event from 'plugins/bus'
 
 import Paginate from 'components/wtsp/right/groups/Paginate'
 
@@ -35,7 +34,7 @@ class Groups extends Component {
                     localStorage.removeItem('auth')
                     window.location.href = '/signin'
                 }
-                event.$emit('notificate', { message: payload, type: 'error'})
+                window.pusher.$emit('notificate', { message: payload, type: 'error'})
              })   
     }
 
@@ -51,7 +50,7 @@ class Groups extends Component {
                     localStorage.removeItem('auth')
                     window.location.href = '/signin'
                 }
-                event.$emit('notificate', { message: payload, type: 'error'})
+                window.pusher.$emit('notificate', { message: payload, type: 'error'})
              })   
     }
 

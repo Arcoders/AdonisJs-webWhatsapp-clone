@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 
-import event from 'plugins/bus'
-
 
 class Alert extends Component {
 
@@ -9,7 +7,7 @@ class Alert extends Component {
 
     componentDidMount() {
         
-        event.$on('notificate', (data) => {
+        window.pusher.$on('notificate', (data) => {
             const { message, type } = data
             this.setState({ show: true, message, type})
             setTimeout(this.reset.bind(this), 3000)

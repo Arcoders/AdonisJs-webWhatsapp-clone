@@ -18,3 +18,14 @@
                 Moment(fromNow='{true}') { message.time }
             .time(@if='message.error')
                 i.material-icons.error error
+
+        div(@repeat='this.state.typing as typing')
+            div(@if='!this.messageClass(typing.id)' className='typing')
+
+                div(class="typing_mouth")
+                    Avatar.avatar(name='{typing.username}' size='45' src='{typing.avatar}' className="friend_img")
+
+                .typing_content
+                    span(class="dot")
+                    span(class="dot")
+                    span(class="dot")
