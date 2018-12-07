@@ -8,10 +8,6 @@ SkyChat Messenger is a free messaging service. The application allows to send te
 
 ![Use cases](./img/use-cases.png)
 
-## Activity Diagram
-
-## TECHNICAL DESCRIPTION
-
 ## Block diagram
 
 ![Block Diagram](./img/block.png)
