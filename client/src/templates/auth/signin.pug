@@ -1,5 +1,7 @@
 div(className='auth')
-  h2 Sign In
+  h2 Login
+    span
+        NavLink.link(to="/signup") | Register
   form(className='form', onSubmit='{this.props.handleSubmit(this.onSubmit)}')
     Field(name='email', type='text', placeholder='Email', component='input')
     Field(name='password', type='password', placeholder='Password', component='input')

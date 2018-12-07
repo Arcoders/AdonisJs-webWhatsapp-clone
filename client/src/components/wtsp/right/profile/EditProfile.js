@@ -21,10 +21,12 @@ class EditProfile extends Component {
     handleFileChange(e) {
         let files = e.target.files
         let reader = new FileReader()
-        reader.readAsDataURL(files[0])
-        let name = `${e.target.name}Uploaded`
-        reader.onload = e => window.pusher.$emit(name, e.target.result)
-        this.setState({ [name]: files[0] })
+        if (files.length) {
+            reader.readAsDataURL(files[0])
+            let name = `${e.target.name}Uploaded`
+            reader.onload = e => window.pusher.$emit(name, e.target.result)
+            this.setState({ [name]: files[0] })
+        }
     }
 
     handleInputChange(e) {

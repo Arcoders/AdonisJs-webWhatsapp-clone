@@ -106,9 +106,11 @@ class EditGroup extends Component {
     handleFileChange(e) {
         let files = e.target.files
         let reader = new FileReader()
-        reader.readAsDataURL(files[0])
-        reader.onload = e => {
-            this.setState({ avatar: e.target.result, photoUploaded: files[0], avatarStatus: 'yes' })
+        if (files.length) {
+            reader.readAsDataURL(files[0])
+            reader.onload = e => {
+                this.setState({ avatar: e.target.result, photoUploaded: files[0], avatarStatus: 'yes' })
+            }
         }
     }
 

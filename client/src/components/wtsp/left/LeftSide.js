@@ -20,6 +20,11 @@ class LeftSide extends Component {
         window.pusher.$on('filter', data => this.props.toggleChatTo(data))
     }
 
+    logout() {
+        localStorage.removeItem('auth')
+        window.location.href = '/signin'
+    }
+
     render() {
         const button = {
             friends: this.props.chats.toggleStatus ? 'active' : null,

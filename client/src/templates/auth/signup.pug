@@ -1,5 +1,7 @@
 div(className='auth')
-  h2 Sign Up
+  h2 Register
+    span
+      NavLink.link(to="/signin") | Login
   form(className='form', onSubmit='{this.props.handleSubmit(this.onSubmit)}')
     Field(name='email', type='text', placeholder='Email', component='input')
     Field(name='username', type='text', placeholder='Username', component='input')
@@ -7,4 +9,5 @@ div(className='auth')
     Field(name='password_confirmation', placeholder='Confirm your password', type='password', component='input')
     button Sign Up
     span {this.props.errorMessage}
+
 

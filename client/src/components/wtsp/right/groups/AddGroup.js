@@ -67,8 +67,10 @@ class AddGroup extends Component {
     handleFileChange(e) {
         let files = e.target.files
         let reader = new FileReader()
-        reader.readAsDataURL(files[0])
-        reader.onload = e => this.setState({ photo: e.target.result, photoUploaded: files[0] })
+        if (files.length) {
+            reader.readAsDataURL(files[0])
+            reader.onload = e => this.setState({ photo: e.target.result, photoUploaded: files[0] })
+        }
     }
 
     clearPhoto() {
