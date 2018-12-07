@@ -20,6 +20,10 @@ SkyChat Messenger is a free messaging service. The application allows to send te
 
 ![Data Model](./img/re.png)
 
+## Testing
+
+![Testing](./img/tests.png)
+
 ## Technology Stack
 
 * PUG

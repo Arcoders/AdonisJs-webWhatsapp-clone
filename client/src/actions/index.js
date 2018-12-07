@@ -48,7 +48,7 @@ export const signin = (formProps) => dispatch => {
         })
         .catch(error => {
             let payload = 'An error has occurred';
-            if (error.response && error.response.status === 422) payload = error.response.data.shift().message
+            if (error.response && (error.response.status === 422 || error.response.status === 401)) payload = error.response.data.shift().message
             dispatch({ type: AUTH_ERROR, payload })
         })   
 

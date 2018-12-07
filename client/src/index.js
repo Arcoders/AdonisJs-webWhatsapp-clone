@@ -17,7 +17,7 @@ import ExtendedPusher from 'plugins/pusher'
 const auth = JSON.parse(localStorage.getItem('auth'))
 
 let pusher = new ExtendedPusher('60efd870de38efff2291', {
-    authEndpoint: 'http://127.0.0.1:3333/api/pusher',
+    authEndpoint: 'http://192.168.0.22:3333/api/pusher',
     auth: {
         headers: {
         Authorization: `Bearer ${auth && auth.jwt.token}`,
